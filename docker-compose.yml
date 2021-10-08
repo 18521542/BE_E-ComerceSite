@@ -1,0 +1,26 @@
+version: "3"
+networks: 
+    my-app-network: null
+
+services: 
+    back-end:
+        build:
+            dockerfile: Dockerfile
+        ports: 
+            - '$BE_Port:PORT'
+        volumes: 
+            - ./Back End:/app
+            - "/app/node_modules"
+        networks: 
+            - my-app-network
+        depends_on: 
+            - my-database-for-node-app
+###################################################################
+    my-database-for-node-app:
+        build: 
+            context: ./Database
+            dockerfile: Dockerfile
+        networks: 
+            - my-app-network
+        environment:
+            
