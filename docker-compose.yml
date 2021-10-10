@@ -1,40 +1,40 @@
-version: "3"
-networks: 
-    my-app-network: null
+version: '3'
+networks:
+  my-app-network: null
 
-services: 
-    back-end:
-        build:
-            context: .
-            dockerfile: Dockerfile
-        ports: 
-            - '${BE_PORT}:${BE_PORT}'
-        volumes: 
-            - .:/app
-            - "/app/node_modules"
-        networks: 
-            - my-app-network
-        depends_on: 
-            - my-database-for-node-app
-        environment:
-            - DB_NAME=${DB_NAME}
-            - DB_HOST=${DB_HOST}
-            - DB_PASSWORD=${DB_PASSWORD}
-            - DB_USER=${DB_USER}
+services:
+  back-end:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '${BE_PORT}:${BE_PORT}'
+    volumes:
+      - .:/app
+      - '/app/node_modules'
+    networks:
+      - my-app-network
+    depends_on:
+      - my-database-for-node-app
+    environment:
+      - DB_NAME=${DB_NAME}
+      - DB_HOST=${DB_HOST}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_USER=${DB_USER}
 
-            - BE_PORT=${BE_PORT}
-            - DB_PORT=${DB_PORT}
-###################################################################
-    my-database-for-node-app:
-        image: mysql:8.0
-        container_name: '${DB_HOST}'
-        networks: 
-            - my-app-network
-        environment:
-            - MYSQL_DATABASE=${DB_NAME}
-            - MYSQL_USER=${DB_USER}
-            - MYSQL_PASSWORD=${DB_PASSWORD}
-            - MYSQL_ROOT_PASSWORD={DB_ROOT_PASSWORD}
-        ports:
-            - '${DB_PORT}:3306'
-            
+      - BE_PORT=${BE_PORT}
+      - DB_PORT=${DB_PORT}
+  ###################################################################
+  my-database-for-node-app:
+    image: mysql:8.0
+    container_name: '${DB_HOST}'
+    networks:
+      - my-app-network
+    environment:
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD={DB_ROOT_PASSWORD}
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - '${DB_PORT}:3306'
