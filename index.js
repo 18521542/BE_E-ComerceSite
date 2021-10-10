@@ -3,7 +3,7 @@ const model = require("./model/DB_Access_Helper")
 
 const app = express();
 
-let port = process.env.port || 3000;
+let port = process.env.BE_PORT || 3000;
 
 app.get("/", function (req, res) {
     res.send("API is running...");
