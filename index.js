@@ -1,23 +1,20 @@
 const express = require("express")
-const model = require("./model/DB_Access_Helper")
+const db = require("./database/main")
+const model = require("./model")
+const pathToMigration = `${__dirname}/migrations/`;
 
 const app = express();
 
 let port = process.env.BE_PORT || 3000;
 
+db.connect();  
+db.migrateDB(model.getInstance(), pathToMigration)
+
+console.log(model.getInstance())
 app.get("/", function (req, res) {
     res.send("API is running...");
 });
 
-
-
-app.get("/test", (req,res)=>{
-    let connect = model.connect();
-    res.status(200).send({message:"connect success"})
-})
-
-var test = require("./model/model")
 app.listen(port, ()=>{
-    test()
     console.log(`app is listening on ${port}`)
 })

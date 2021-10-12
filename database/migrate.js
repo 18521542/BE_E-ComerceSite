@@ -1,6 +1,6 @@
 const Umzug = require("umzug");
 
-export default (sequelizeInstance, path, db) =>{
+exports.migrate = (sequelizeInstance, path, db) => {
     return new Umzug({
         storage: 'sequelize',
         storageOptions:{
