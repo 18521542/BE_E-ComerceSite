@@ -10,7 +10,6 @@ let port = process.env.BE_PORT || 3000;
 db.connect();  
 db.migrateDB(model.getInstance(), pathToMigration)
 
-console.log(model.getInstance())
 app.get("/", function (req, res) {
     res.send("API is running...");
 });
