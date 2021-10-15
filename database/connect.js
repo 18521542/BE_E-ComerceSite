@@ -11,6 +11,7 @@ const connection = new Sequelize(
     process.env.DB_PASSWORD, {
         host: 'my-database-for-node-app',
         dialect: 'mysql', 
+        logging: false,
         pool: {
             max: 5,
             min: 0,
