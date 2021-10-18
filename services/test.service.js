@@ -14,83 +14,43 @@ class TestService extends BaseService {
     return modelTest.findByPk(testid);
   }
 
-  static findTestInTable(dataprop) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        let resTest = await model.getInstance().Test.findOne({
-          where: {
-            id: dataprop,
-          },
-          raw: false,
-        });
-        if (resTest) {
-          resolve({
-            found: 1,
-            message: 'Found Test with the id is ' + dataprop + ' .',
-            test: resTest,
-          });
-        } else {
-          resolve({
-            found: 0,
-            message: 'Data is not found',
-          });
-        }
-      } catch (e) {
-        reject(e);
-      }
+  static async findTestInTable(dataprop) {
+    let resTest = await modelTest.findOne({
+      where: {
+        id: dataprop,
+      },
+      raw: false,
     });
-
-    // return () => {
-    //   let resTest = modelTest
-    //     .findOne({
-    //       where: {
-    //         id: dataprop,
-    //       },
-    //       raw: false,
-    //     })
-    //     .then(  resTest ? 0 : 1);
-    // };
+    return resTest;
   }
 
-  static createNewTest(newTest) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const resultFindTest = await this.findTestInTable(newTest.id);
-        // check if id's existed or not
-        if (resultFindTest.found == 0) {
-          await model.getInstance().Test.create({
-            id: newTest.id,
-            name: newTest.name,
-            created_at: newTest.created_at,
-            updated_at: newTest.updated_at,
-          });
-          resolve('successfully created');
-        } else {
-          resolve('duplicate primary key, please check again!');
-        }
-      } catch (e) {
-        reject(e);
-      }
-    });
+  static async createNewTest(newTest) {
+    const resultFindTest = await this.findTestInTable(newTest.id);
+    // check if result is found or not
+    if (resultFindTest) {
+      return 'duplicate primary key, please check again!';
+    } else {
+      await modelTest.create({
+        id: newTest.id,
+        name: newTest.name,
+        created_at: newTest.created_at,
+        updated_at: newTest.updated_at,
+      });
+      return 'successfully created';
+    }
   }
 
-  static updateTest(newTest) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const resultFindTest = await this.findTestInTable(newTest.id);
-        // check if id's existed or not
-        if (resultFindTest.found == 1) {
-          resultFindTest.test.name = newTest.name;
-          resultFindTest.test.updated_at = newTest.updated_at;
-          await resultFindTest.test.save();
-          resolve('successfully UPDATED ');
-        } else {
-          resolve('Not found test with this id');
-        }
-      } catch (e) {
-        reject(e);
-      }
-    });
+  static async updateTest(newTest) {
+    const resultFindTest = await this.findTestInTable(newTest.id);
+    // check if id's existed or not
+    if (resultFindTest) {
+      resultFindTest.name = newTest.name;
+      resultFindTest.updated_at = newTest.updated_at;
+      await resultFindTest.save();
+      return 'successfully UPDATED ';
+    } else {
+      return 'Not found test with this id';
+    }
   }
 }
 
