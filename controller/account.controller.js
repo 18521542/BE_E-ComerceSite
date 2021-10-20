@@ -1,5 +1,6 @@
 const AccountService = require('../services/account.service');
 const CRUD = require('./index');
+const jwt = require('jsonwebtoken');
 
 class AccountController extends CRUD {
   /**
@@ -28,6 +29,15 @@ class AccountController extends CRUD {
     res.send(result);
   }
 
+  /**
+   * retrive - retrive an account from db.
+   *
+   * @function create
+   * @memberof module:controllers/CRUD
+   * @param  {Object} req  Express request object
+   * @param  {Object} res  Express response object
+   * @param  {Function} next Express next middleware function
+   */
   async retrive(req, res, next) {
     let account = {
       username: req.body.username,
@@ -36,11 +46,22 @@ class AccountController extends CRUD {
     let result = await AccountService.checkAccount(account);
     // res.send(result);
     if (result) {
-      res.send('Login successfully. Hello,' + account.username);
+      // Sign jwt token when login successfully
+      const accessToken = jwt.sign(
+        { username: account.username },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: '24h',
+        },
+      );
+      res.send({
+        message: 'Login successfully. Hello,' + account.username,
+        jwt_token: accessToken,
+      });
     } else {
       res.send('Username or password is incorrect. Please try again!');
     }
-    next();
+    // next();
   }
 }
 

@@ -26,7 +26,7 @@ class AccountService extends BaseService {
     if (resFindAccount) {
       return 'The account is existed, please check again!';
     } else {
-      // check mail and password
+      // check mail and password (NOT DONE)
       // .....
 
       // create new account & hash the password with bcrypt

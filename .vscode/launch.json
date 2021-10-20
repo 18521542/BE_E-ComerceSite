@@ -1,7 +1,4 @@
 {
-  // Use IntelliSense to learn about possible attributes.
-  // Hover to view descriptions of existing attributes.
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
     {
@@ -10,6 +7,27 @@
       "name": "Launch Chrome against localhost",
       "url": "http://localhost:5432",
       "webRoot": "${workspaceFolder}"
+    },
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "/Users/linhleba/OneDrive - Trường ĐH CNTT - University of Information Technology/NĂM 4/Đồ án 2/BE_E-ComerceSite",
+      "environment": [],
+      "program": "/Users/linhleba/OneDrive - Trường ĐH CNTT - University of Information Technology/NĂM 4/Đồ án 2/BE_E-ComerceSite/build/Debug/outDebug",
+      "internalConsoleOptions": "openOnSessionStart",
+      "MIMode": "gdb",
+      "miDebuggerPath": "/usr/bin/lldb",
+      "externalConsole": false,
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
     }
   ]
 }
