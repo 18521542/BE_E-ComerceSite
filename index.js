@@ -4,11 +4,14 @@ const db = require('./database/main');
 const model = require('./model');
 const pathToMigration = `${__dirname}/migrations/`;
 const routes = require('./routes');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
 let port = process.env.BE_PORT || 3000;
 
+// package for getting value in cookie
+app.use(cookieParser());
 // body-parser
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

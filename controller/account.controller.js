@@ -49,19 +49,54 @@ class AccountController extends CRUD {
       // Sign jwt token when login successfully
       const accessToken = jwt.sign(
         { username: account.username },
-        process.env.JWT_SECRET,
+        process.env.ACCESS_JWT_SECRET,
         {
-          expiresIn: '24h',
+          expiresIn: '30s',
         },
       );
+
+      const refreshToken = jwt.sign(
+        { username: account.username },
+        process.env.REFRESH_JWT_SECRET,
+        {
+          expiresIn: '1y',
+        },
+      );
+
+      // Set cookies for JWT
+      res.cookie('accessToken', accessToken, {
+        maxAge: 300000, //5 minutes,
+        httpOnly: true,
+      });
+
+      res.cookie('refreshToken', refreshToken, {
+        maxAge: 3.154e10,
+        httpOnly: true,
+      });
+
       res.send({
         message: 'Login successfully. Hello,' + account.username,
-        jwt_token: accessToken,
+        access_jwt_token: accessToken,
+        refresh_jwt_token: refreshToken,
       });
     } else {
       res.send('Username or password is incorrect. Please try again!');
     }
     // next();
+  }
+
+  /**
+   * logout - logout an account, delete the access and refresh Token.
+   *
+   * @function logout
+   * @param  {Object} req  Express request object
+   * @param  {Object} res  Express response object
+   * @param  {Function} next Express next middleware function
+   */
+  async logOut(req, res) {
+    res.cookie('accessToken', '', { maxAge: 0 });
+    res.cookie('refreshToken', '', { maxAge: 0 });
+    res.redirect('/');
   }
 }
 
