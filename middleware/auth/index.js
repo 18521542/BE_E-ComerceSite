@@ -1,14 +1,14 @@
 const jwt = require('jsonwebtoken');
 const cryptojs = require('crypto-js');
-const AuthenticationError = require('../../errors/BusinessError/index');
+const AuthenticationError = require('../../errors/BusinessError');
 //this file contain code to authorize user
 function verifyJWT(jwtSecret) {
   return (req, res, next) => {
     const accessToken = req.cookies.accessToken;
     jwt.verify(accessToken, jwtSecret, (err, decoded) => {
       if (err) {
-        throw new AuthenticationError(err);
-        // res.sendStatus(401).json({ status: "Error" });
+        // throw new AuthenticationError(err);
+        res.status(401).send({ status: 'Error authorization' });
       }
       if (decoded) {
         // get the account data to know who is authorized
@@ -27,7 +27,7 @@ function verifyJWT(jwtSecret) {
 
 function renewAccessJWT() {
   return (req, res, next) => {
-    const  refreshToken = req.cookies.refreshToken;
+    const refreshToken = req.cookies.refreshToken;
     if (refreshToken)
       jwt.verify(
         refreshToken,

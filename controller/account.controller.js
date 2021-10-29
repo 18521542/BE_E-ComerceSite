@@ -47,7 +47,7 @@ class AccountController extends CRUD {
     // res.send(result);
     if (result) {
       // Sign jwt token when login successfully
-      const accessToken = jwt.sign(
+      const access_jwt_token = jwt.sign(
         { username: account.username },
         process.env.ACCESS_JWT_SECRET,
         {
@@ -55,7 +55,7 @@ class AccountController extends CRUD {
         },
       );
 
-      const refreshToken = jwt.sign(
+      const refresh_jwt_token = jwt.sign(
         { username: account.username },
         process.env.REFRESH_JWT_SECRET,
         {
@@ -64,20 +64,20 @@ class AccountController extends CRUD {
       );
 
       // Set cookies for JWT
-      res.cookie('accessToken', accessToken, {
+      res.cookie('access_jwt_token', access_jwt_token, {
         maxAge: 300000, //5 minutes,
         httpOnly: true,
       });
 
-      res.cookie('refreshToken', refreshToken, {
+      res.cookie('refresh_jwt_token', refresh_jwt_token, {
         maxAge: 3.154e10,
         httpOnly: true,
       });
 
       res.send({
         message: 'Login successfully. Hello,' + account.username,
-        access_jwt_token: accessToken,
-        refresh_jwt_token: refreshToken,
+        access_jwt_token: access_jwt_token,
+        refresh_jwt_token: refresh_jwt_token,
       });
     } else {
       res.send('Username or password is incorrect. Please try again!');
