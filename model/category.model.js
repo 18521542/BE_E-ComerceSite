@@ -1,9 +1,9 @@
 module.exports = (sequelize, DataType) => {
-  const test = sequelize.define(
-    'test',
+  const category = sequelize.define(
+    'category',
     {
       id: {
-        type: DataType.INTEGER,
+        type: DataType.UUID,
         allowNull: false,
         primaryKey: true,
       },
@@ -21,9 +21,9 @@ module.exports = (sequelize, DataType) => {
       },
     },
     {
-      tableName: 'test',
+      tableName: 'category',
       underscored: true,
     },
   );
-  return test;
+  return category;
 };

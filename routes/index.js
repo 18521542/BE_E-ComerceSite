@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const test = require('./test.routes');
 const account = require('./account.routes');
 const author = require('./author.routes');
+const category = require('./category.routes');
 
-router.use('/test', test);
 router.use('/account', account);
 
-// Api author
+// Api author, category
 router.use('/api/author', author);
+router.use('/api/category', category);
 
 module.exports = router;

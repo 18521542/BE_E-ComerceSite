@@ -1,7 +1,7 @@
 async function up(queryInterface, DataType) {
-  await queryInterface.createTable('test', {
+  await queryInterface.createTable('category', {
     id: {
-      type: DataType.INTEGER,
+      type: DataType.UUID,
       allowNull: false,
       primaryKey: true,
     },
@@ -21,7 +21,7 @@ async function up(queryInterface, DataType) {
 }
 
 async function down(queryInterface) {
-  await queryInterface.dropTable('test');
+  await queryInterface.dropTable('category');
 }
 
 module.exports = { up, down };

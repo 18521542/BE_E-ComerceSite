@@ -1,9 +1,9 @@
 const express = require('express');
-const AuthorController = require('../controller/author.controller');
+const CategoryController = require('../controller/category.controller');
 const JWT = require('../middleware/auth');
 const router = express.Router();
 
-const controller = new AuthorController();
+const controller = new CategoryController();
 
 router.get('/', controller.action('list'));
 router.post('/', controller.action('create'));
