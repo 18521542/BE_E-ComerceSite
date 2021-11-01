@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataType) => {
-  const author = sequelize.define(
-    'author',
+  const book = sequelize.define(
+    'book',
     {
       id: {
         type: DataType.UUID,
@@ -10,10 +10,22 @@ module.exports = (sequelize, DataType) => {
       name: {
         type: DataType.STRING,
         allowNull: false,
+        primaryKey: false,
       },
-      telephone: {
+      description: {
         type: DataType.STRING,
-        allowNull: false,
+        allowNull: true,
+        primaryKey: false,
+      },
+      quantity: {
+        type: DataType.INTEGER,
+        allowNull: true,
+        primaryKey: false,
+      },
+      price: {
+        type: DataType.BIGINT,
+        allowNull: true,
+        primaryKey: false,
       },
       created_at: {
         type: DataType.DATE,
@@ -25,17 +37,17 @@ module.exports = (sequelize, DataType) => {
       },
     },
     {
-      tableName: 'author',
+      tableName: 'book',
       underscored: true,
     },
   );
 
-  author.associate = (models) => {
-    author.belongsToMany(models.Book, {
+  book.associate = (models) => {
+    book.belongsToMany(models.Author, {
       through: 'book_author',
-      as: 'book',
-      foreignKey: 'author_id',
+      as: 'author',
+      foreignKey: 'book_id',
     });
   };
-  return author;
+  return book;
 };
