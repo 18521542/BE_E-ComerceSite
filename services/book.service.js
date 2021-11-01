@@ -2,11 +2,20 @@ const model = require('../model');
 const BaseService = require('./base.service');
 
 const modelBook = model.getInstance().Book;
+const modelAuthor = model.getInstance().Author;
+const modelBookAuthor = model.getInstance().Book_author;
 
 class BookService extends BaseService {
   static getAllBook() {
     return modelBook.findAll({
-      raw: true,
+      include: [
+        {
+          model: modelAuthor,
+          as: 'author',
+          through: { attributes: [] },
+          attributes: ['id'],
+        },
+      ],
     });
   }
 
@@ -28,26 +37,43 @@ class BookService extends BaseService {
     const resultFindBook = await this.findBookInTable(newBook.name);
     // check if result is found or not
     if (resultFindBook) {
-      return 'Name is existed, please check again!';
+      return 'name is existed, please check again!';
     } else {
       await modelBook.create({
         id: newBook.id,
         name: newBook.name,
-        description: newBook.telephone,
+        description: newBook.description,
         price: newBook.price,
         quantity: newBook.quantity,
         created_at: newBook.created_at,
         updated_at: newBook.updated_at,
       });
 
-      if (newBook.author_id && newBook.author_id.length > 0) {
+      const idBookAuthor = newBook.author_id;
+      if (idBookAuthor && idBookAuthor.length > 0) {
         // set author and book in db BookAuthor
+        idBookAuthor.forEach(async (element) => {
+          await modelBookAuthor.create({
+            book_id: newBook.id,
+            author_id: element,
+          });
+        });
       }
       const mess = {
-        mess: 'add Book successfully',
-        data: {
-          // update data
-        },
+        mess: 'Update successfully',
+        data: await modelBook.findOne({
+          includes: [
+            {
+              model: modelAuthor,
+              as: 'author',
+              // through: { attributes: [] },
+              // attributes: ['id'],
+              where: {
+                id: newBook.id,
+              },
+            },
+          ],
+        }),
       };
       return mess;
     }
