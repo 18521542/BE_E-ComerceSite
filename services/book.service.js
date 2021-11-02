@@ -3,7 +3,9 @@ const BaseService = require('./base.service');
 
 const modelBook = model.getInstance().Book;
 const modelAuthor = model.getInstance().Author;
+const modelCategory = model.getInstance().Category;
 const modelBookAuthor = model.getInstance().Book_author;
+const modelBookCategory = model.getInstance().Book_category;
 
 class BookService extends BaseService {
   static getAllBook() {
@@ -15,7 +17,14 @@ class BookService extends BaseService {
           through: { attributes: [] },
           attributes: ['id'],
         },
+        {
+          model: modelCategory,
+          as: 'category',
+          through: { attributes: [] },
+          attributes: ['id'],
+        },
       ],
+      attributes: ['id', 'name', 'description', 'quantity', 'price'],
     });
   }
 
@@ -50,6 +59,7 @@ class BookService extends BaseService {
       });
 
       const idBookAuthor = newBook.author_id;
+      const idBookCategory = newBook.category_id;
       if (idBookAuthor && idBookAuthor.length > 0) {
         // set author and book in db BookAuthor
         idBookAuthor.forEach(async (element) => {
@@ -59,18 +69,34 @@ class BookService extends BaseService {
           });
         });
       }
+      if (idBookCategory && idBookCategory.length > 0) {
+        // set category and book in db BookCategory
+        idBookCategory.forEach(async (element) => {
+          await modelBookCategory.create({
+            book_id: newBook.id,
+            category_id: element,
+          });
+        });
+      }
+
+      // CAN'T HANDLE QUERY WHERE BOOK before INCLUDE
       const mess = {
-        mess: 'Update successfully',
+        mess: 'add book successfully',
         data: await modelBook.findOne({
-          includes: [
+          include: [
             {
               model: modelAuthor,
               as: 'author',
-              // through: { attributes: [] },
-              // attributes: ['id'],
-              where: {
-                id: newBook.id,
-              },
+              through: { attributes: [] },
+              attributes: ['id'],
+              where: { id: newBook.author_id },
+            },
+            {
+              model: modelCategory,
+              as: 'category',
+              through: { attributes: [] },
+              attributes: ['id'],
+              where: { id: newBook.category_id },
             },
           ],
         }),

@@ -1,15 +1,16 @@
 module.exports = (sequelize, DataType) => {
-  const category = sequelize.define(
-    'category',
+  const book_category = sequelize.define(
+    'book_category',
     {
-      id: {
+      book_id: {
         type: DataType.UUID,
         allowNull: false,
         primaryKey: true,
       },
-      name: {
-        type: DataType.STRING,
+      category_id: {
+        type: DataType.UUID,
         allowNull: false,
+        primaryKey: true,
       },
       created_at: {
         type: DataType.DATE,
@@ -21,18 +22,9 @@ module.exports = (sequelize, DataType) => {
       },
     },
     {
-      tableName: 'category',
+      tableName: 'book_category',
       underscored: true,
     },
   );
-
-  category.associate = (models) => {
-    category.belongsToMany(models.Book, {
-      through: 'book_category',
-      as: 'book',
-      foreignKey: 'category_id',
-    });
-  };
-
-  return category;
+  return book_category;
 };

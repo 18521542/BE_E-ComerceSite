@@ -31,12 +31,13 @@ class BookController extends CRUD {
     let book = {
       id: uuidv4(),
       name: req.body.name,
-      description: req.body.telephone,
+      description: req.body.description,
       price: req.body.price,
       quantity: req.body.quantity,
       created_at: currentDate,
       updated_at: currentDate,
       author_id: req.body.author_id,
+      category_id: req.body.category_id,
     };
     let result = await BookService.createNewBook(book);
     res.send(result);

@@ -48,6 +48,13 @@ module.exports = (sequelize, DataType) => {
       as: 'author',
       foreignKey: 'book_id',
     });
+
+    book.belongsToMany(models.Category, {
+      through: 'book_category',
+      as: 'category',
+      foreignKey: 'book_id',
+    });
   };
+
   return book;
 };
