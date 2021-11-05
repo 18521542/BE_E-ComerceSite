@@ -1,5 +1,7 @@
 const model = require('../model');
 const BaseService = require('./base.service');
+const connection = require('../database/connect');
+const db = connection.getConnection();
 
 const modelBook = model.getInstance().Book;
 const modelAuthor = model.getInstance().Author;
@@ -15,13 +17,13 @@ class BookService extends BaseService {
           model: modelAuthor,
           as: 'author',
           through: { attributes: [] },
-          attributes: ['id'],
+          attributes: ['id', 'name'],
         },
         {
           model: modelCategory,
           as: 'category',
           through: { attributes: [] },
-          attributes: ['id'],
+          attributes: ['id', 'name'],
         },
       ],
       attributes: ['id', 'name', 'description', 'quantity', 'price'],
@@ -47,61 +49,89 @@ class BookService extends BaseService {
     // check if result is found or not
     if (resultFindBook) {
       return 'name is existed, please check again!';
+    } else if (!newBook.author_id || newBook.author_id.length == 0) {
+      return 'author_id is null. Please input at least one author';
+    } else if (!newBook.category_id || newBook.category_id.length == 0) {
+      return 'category_id is null. Please input at least one category';
     } else {
-      await modelBook.create({
-        id: newBook.id,
-        name: newBook.name,
-        description: newBook.description,
-        price: newBook.price,
-        quantity: newBook.quantity,
-        created_at: newBook.created_at,
-        updated_at: newBook.updated_at,
-      });
-
-      const idBookAuthor = newBook.author_id;
-      const idBookCategory = newBook.category_id;
-      if (idBookAuthor && idBookAuthor.length > 0) {
-        // set author and book in db BookAuthor
-        idBookAuthor.forEach(async (element) => {
-          await modelBookAuthor.create({
-            book_id: newBook.id,
-            author_id: element,
-          });
-        });
-      }
-      if (idBookCategory && idBookCategory.length > 0) {
-        // set category and book in db BookCategory
-        idBookCategory.forEach(async (element) => {
-          await modelBookCategory.create({
-            book_id: newBook.id,
-            category_id: element,
-          });
-        });
-      }
-
-      // CAN'T HANDLE QUERY WHERE BOOK before INCLUDE
-      const mess = {
-        mess: 'add book successfully',
-        data: await modelBook.findOne({
-          include: [
+      const t = await db.transaction();
+      try {
+        const result = await db.transaction(async (t) => {
+          await modelBook.create(
             {
-              model: modelAuthor,
-              as: 'author',
-              through: { attributes: [] },
-              attributes: ['id'],
-              where: { id: newBook.author_id },
+              id: newBook.id,
+              name: newBook.name,
+              description: newBook.description,
+              price: newBook.price,
+              quantity: newBook.quantity,
+              created_at: newBook.created_at,
+              updated_at: newBook.updated_at,
             },
             {
-              model: modelCategory,
-              as: 'category',
-              through: { attributes: [] },
-              attributes: ['id'],
-              where: { id: newBook.category_id },
+              transaction: t,
             },
-          ],
-        }),
-      };
-      return mess;
+          );
+
+          const idBookAuthor = newBook.author_id;
+          const idBookCategory = newBook.category_id;
+
+          if (idBookAuthor && idBookAuthor.length > 0) {
+            // set author and book in db BookAuthor
+            for (const element of idBookAuthor) {
+              await modelBookAuthor.create(
+                {
+                  book_id: newBook.id,
+                  author_id: element,
+                },
+                {
+                  transaction: t,
+                },
+              );
+            }
+          }
+          if (idBookCategory && idBookCategory.length > 0) {
+            // set category and book in db BookCategory
+            for (const element of idBookCategory) {
+              await modelBookCategory.create(
+                {
+                  book_id: newBook.id,
+                  category_id: element,
+                },
+                {
+                  transaction: t,
+                },
+              );
+            }
+          }
+        });
+
+        // Return the message if create successfully
+        const mess = {
+          mess: 'add book successfully',
+          data: await modelBook.findOne({
+            include: [
+              {
+                model: modelAuthor,
+                as: 'author',
+                through: { attributes: [] },
+                attributes: ['id'],
+                where: { id: newBook.author_id },
+              },
+              {
+                model: modelCategory,
+                as: 'category',
+                through: { attributes: [] },
+                attributes: ['id'],
+                where: { id: newBook.category_id },
+              },
+            ],
+          }),
+        };
+        return mess;
+      } catch (err) {
+        await t.rollback();
+        return err;
+      }
     }
   }
 }
