@@ -42,6 +42,22 @@ class BookController extends CRUD {
     let result = await BookService.createNewBook(book);
     res.send(result);
   }
+
+  async update(req, res, next) {
+    let currentDate = new Date();
+    let book = {
+      id: req.params.id,
+      name: req.body.name,
+      description: req.body.description,
+      price: req.body.price,
+      quantity: req.body.quantity,
+      updated_at: currentDate,
+      author_id: req.body.author_id,
+      category_id: req.body.category_id,
+    };
+    let result = await BookService.updateBook(book);
+    res.send(result);
+  }
 }
 
 module.exports = BookController;

@@ -7,6 +7,6 @@ const controller = new BookController();
 
 router.get('/', controller.action('list'));
 router.post('/', controller.action('create'));
-//router.put('/', controller.action('update'))
+router.put('/:id', controller.action('update'));
 
 module.exports = router;
