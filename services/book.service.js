@@ -26,7 +26,14 @@ class BookService extends BaseService {
           attributes: ['id', 'name'],
         },
       ],
-      attributes: ['id', 'name', 'description', 'quantity', 'price'],
+      attributes: [
+        'id',
+        'name',
+        'description',
+        'quantity',
+        'price',
+        'image_url',
+      ],
     });
   }
 
@@ -82,6 +89,7 @@ class BookService extends BaseService {
               quantity: newBook.quantity,
               created_at: newBook.created_at,
               updated_at: newBook.updated_at,
+              image_url: newBook.image_url,
             },
             {
               transaction: t,
@@ -168,6 +176,7 @@ class BookService extends BaseService {
           resultFindBook.price = book.price;
           resultFindBook.quantity = book.quantity;
           resultFindBook.updated_at = book.updated_at;
+          resultFindBook.image_url = book.image_url;
           await resultFindBook.save({ transaction: t });
 
           // Destroy all the books and categories

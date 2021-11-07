@@ -38,6 +38,7 @@ class BookController extends CRUD {
       updated_at: currentDate,
       author_id: req.body.author_id,
       category_id: req.body.category_id,
+      image_url: req.body.image_url,
     };
     let result = await BookService.createNewBook(book);
     res.send(result);
@@ -54,6 +55,7 @@ class BookController extends CRUD {
       updated_at: currentDate,
       author_id: req.body.author_id,
       category_id: req.body.category_id,
+      image_url: req.body.image_url,
     };
     let result = await BookService.updateBook(book);
     res.send(result);

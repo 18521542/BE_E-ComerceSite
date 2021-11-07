@@ -27,6 +27,10 @@ module.exports = (sequelize, DataType) => {
         allowNull: true,
         primaryKey: false,
       },
+      image_url: {
+        type: DataType.STRING,
+        allowNull: true,
+      },
       created_at: {
         type: DataType.DATE,
         allowNull: false,
