@@ -1,27 +1,23 @@
 module.exports = (sequelize, DataType) => {
-  const shop = sequelize.define(
-    'shop',
+  const transaction = sequelize.define(
+    'transaction',
     {
       id: {
         type: DataType.UUID,
         primaryKey: true,
         allowNull: false,
       },
-      name: {
+      status: {
         type: DataType.STRING,
         allowNull: false,
       },
-      email: {
-        type: DataType.STRING,
-        allowNull: false,
-      },
-      address: {
-        type: DataType.STRING,
-        allowNull: false,
-      },
-      telephone: {
+      ship_date: {
         type: DataType.STRING,
         allowNull: true,
+      },
+      price_total: {
+        type: DataType.STRING,
+        allowNull: false,
       },
       username: {
         type: DataType.STRING,
@@ -37,14 +33,14 @@ module.exports = (sequelize, DataType) => {
       },
     },
     {
-      tableName: 'shop',
+      tableName: 'transaction',
       underscored: true,
     },
   );
-  shop.associate = (models) => {
-    shop.belongsTo(models.Account, {
+  transaction.associate = (models) => {
+    transaction.belongsTo(models.Account, {
       foreignKey: 'username',
     });
   };
-  return shop;
+  return transaction;
 };

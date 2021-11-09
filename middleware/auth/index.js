@@ -4,7 +4,7 @@ const AuthenticationError = require('../../errors/BusinessError');
 //this file contain code to authorize user
 function verifyJWT(jwtSecret) {
   return (req, res, next) => {
-    const accessToken = req.cookies.accessToken;
+    const accessToken = req.cookies.access_jwt_token;
     jwt.verify(accessToken, jwtSecret, (err, decoded) => {
       if (err) {
         // throw new AuthenticationError(err);
@@ -27,7 +27,7 @@ function verifyJWT(jwtSecret) {
 
 function renewAccessJWT() {
   return (req, res, next) => {
-    const refreshToken = req.cookies.refreshToken;
+    const refreshToken = req.cookies.refresh_jwt_token;
     if (refreshToken)
       jwt.verify(
         refreshToken,
@@ -43,7 +43,7 @@ function renewAccessJWT() {
               },
             );
 
-            res.cookie('accessToken', newAccessToken, {
+            res.cookie('access_jwt_token', newAccessToken, {
               maxAge: 30000, //30 seconds,
               httpOnly: true,
             });
