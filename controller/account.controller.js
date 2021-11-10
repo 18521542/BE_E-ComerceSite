@@ -51,7 +51,7 @@ class AccountController extends CRUD {
         { username: account.username },
         process.env.ACCESS_JWT_SECRET,
         {
-          expiresIn: '30s',
+          expiresIn: '1h',
         },
       );
 
@@ -65,7 +65,7 @@ class AccountController extends CRUD {
 
       // Set cookies for JWT
       res.cookie('access_jwt_token', access_jwt_token, {
-        maxAge: 300000, //5 minutes,
+        // maxAge: 300000, //5 minutes,
         httpOnly: true,
       });
 

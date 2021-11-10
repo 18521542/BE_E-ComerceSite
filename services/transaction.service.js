@@ -29,12 +29,13 @@ class TransactionService extends BaseService {
     const t = await db.transaction();
     try {
       const result = await db.transaction(async (t) => {
+        //     consle.log(newTransaction.username);
         await modelTransaction.create(
           {
             id: newTransaction.id,
             username: newTransaction.username,
             status: 'not delivery',
-            price_total: '1000',
+            price_total: newTransaction.price_total,
             updated_at: newTransaction.currentDate,
             created_at: newTransaction.currentDate,
           },
@@ -42,16 +43,17 @@ class TransactionService extends BaseService {
             transaction: t,
           },
         );
-        const transactionDetailList = newTransaction.detail;
-
-        if (transactionDetailList && transactionDetailList.length > 0) {
+        const transactionDetailList = await newTransaction.details;
+        if (true) {
+          console.log(transactionDetailList);
           for (const element of transactionDetailList) {
+            console.log('vao day');
             await modelTransactionDetail.create(
               {
                 transaction_id: newTransaction.id,
                 book_id: element.book_id,
                 quantity: element.quantity,
-                price_total: '10000',
+                price_total: element.price_total,
                 updated_at: newTransaction.currentDate,
                 created_at: newTransaction.currentDate,
               },
@@ -70,6 +72,14 @@ class TransactionService extends BaseService {
           include: [
             {
               model: modelTransactionDetail,
+              as: 'transaction_detail',
+              attributes: [
+                'transaction_id',
+                'book_id',
+                'quantity',
+                'price_total',
+              ],
+              where: { transaction_id: newTransaction.id },
             },
           ],
         }),
@@ -77,7 +87,7 @@ class TransactionService extends BaseService {
       return mess;
     } catch (err) {
       await t.rollback();
-      return err;
+      return err.toString();
     }
   }
 }

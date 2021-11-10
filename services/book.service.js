@@ -247,7 +247,7 @@ class BookService extends BaseService {
       } catch (err) {
         console.log(err);
         await t.rollback();
-        return err;
+        return err.toString();
       }
     }
   }

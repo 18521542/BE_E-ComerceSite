@@ -36,10 +36,14 @@ module.exports = (sequelize, DataType) => {
       underscored: true,
     },
   );
+  // transaction_detail.associate = (models) => {
+  //   transaction_detail.belongsTo(models.Transaction, {
+  //     as: 'transaction',
+  //     foreignKey: 'id',
+  //   });
+  // };
+
   transaction_detail.associate = (models) => {
-    transaction_detail.belongsTo(models.Transaction, {
-      foreignKey: 'id',
-    });
     transaction_detail.belongsTo(models.Book, {
       foreignKey: 'id',
     });

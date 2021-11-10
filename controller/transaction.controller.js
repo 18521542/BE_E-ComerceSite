@@ -28,13 +28,16 @@ class TransactionController extends CRUD {
    */
   async create(req, res, next) {
     let currentDate = new Date();
+    // console.log(res.locals.user);
     let transaction = {
       id: uuidv4(),
       username: res.locals.user.account,
+      price_total: req.body.price_total,
       details: req.body.details,
       created_at: currentDate,
       updated_at: currentDate,
     };
+    // console.log(transaction.details);
     let result = await TransactionService.createNewTransaction(transaction);
     res.send(result);
   }
