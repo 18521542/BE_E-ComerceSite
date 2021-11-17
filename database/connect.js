@@ -35,6 +35,6 @@ exports.connect = function (){
     });
 }
 
-exports.getConnection = () => {return connection}
-exports.getNamespace = () =>{ return namespace}
-exports.getSequelize = () => {return Sequelize}
+exports.getConnection = () => connection
+exports.getNamespace = () => namespace
+exports.getSequelize = () => Sequelize
