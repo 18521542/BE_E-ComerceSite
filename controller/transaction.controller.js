@@ -1,4 +1,4 @@
-const uuidv4 = require('uuid');
+const uuidv4 = require('uuid').v4;
 const TransactionService = require('../services/transaction.service');
 const CRUD = require('./index');
 

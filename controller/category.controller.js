@@ -1,4 +1,4 @@
-const uuidv4 = require('uuid');
+const uuidv4 = require('uuid').v4;
 const CategoryService = require('../services/category.service');
 const CRUD = require('./index');
 

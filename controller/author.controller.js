@@ -1,4 +1,4 @@
-const uuidv4 = require('uuid');
+const uuidv4 = require('uuid').v4;
 const AuthorService = require('../services/author.service');
 const CRUD = require('./index');
 
@@ -28,6 +28,7 @@ class AuthorController extends CRUD {
    */
   async create(req, res, next) {
     let currentDate = new Date();
+    console.log(uuidv4)
     let author = {
       id: uuidv4(),
       name: req.body.name,
