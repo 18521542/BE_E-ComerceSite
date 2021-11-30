@@ -7,7 +7,7 @@ const book = require('./book.routes');
 const shop = require('./shop.routes');
 const transaction = require('./transaction.routes');
 
-router.use('/account', account);
+router.use('/api/account', account);
 
 // Api author, category
 router.use('/api/author', author);
