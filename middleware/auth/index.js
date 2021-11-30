@@ -8,7 +8,11 @@ function verifyJWT(jwtSecret) {
     jwt.verify(accessToken, jwtSecret, (err, decoded) => {
       if (err) {
         // throw new AuthenticationError(err);
-        res.status(401).send({ status: 'Error authorization' });
+        res.status(401).send({
+          message: JSON.stringify(err), 
+          status: 'Error authorization' 
+        });
+        return
       }
       if (decoded) {
         // get the account data to know who is authorized
