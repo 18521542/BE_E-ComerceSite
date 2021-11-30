@@ -23,8 +23,11 @@ class AccountService extends BaseService {
   static async createnewAccount(newAccount) {
     const resFindAccount = await this.findAccount(newAccount.username);
     // check if result is found or not
+    const result = {
+      message: "",
+    }
     if (resFindAccount) {
-      return 'The account is existed, please check again!';
+      result.message = "The account is existed, please check again!";
     } else {
       // check mail and password (NOT DONE)
       // .....
@@ -42,8 +45,9 @@ class AccountService extends BaseService {
         created_at: newAccount.currentDate,
         updated_at: newAccount.currentDate,
       });
-      return 'successfully created';
+      result.message = "successfully created"
     }
+    return result;
   }
 
   static async checkAccount(data) {
