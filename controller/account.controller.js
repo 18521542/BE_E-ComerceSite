@@ -49,7 +49,7 @@ class AccountController extends CRUD {
       // Sign jwt token when login successfully
       const access_jwt_token = jwt.sign(
         { username: account.username },
-        process.env.ACCESS_JWT_SECRET,
+        process.env.ACCESS_JWT_SECRET || "duytrongdt",
         {
           expiresIn: '1h',
         },
@@ -57,7 +57,7 @@ class AccountController extends CRUD {
 
       const refresh_jwt_token = jwt.sign(
         { username: account.username },
-        process.env.REFRESH_JWT_SECRET,
+        process.env.REFRESH_JWT_SECRET || "kimyenzt",
         {
           expiresIn: '1y',
         },
@@ -80,7 +80,10 @@ class AccountController extends CRUD {
         refresh_jwt_token: refresh_jwt_token,
       });
     } else {
-      res.send('Username or password is incorrect. Please try again!');
+      const message = {
+        message: 'Username or password is incorrect. Please try again!'
+      }
+      res.send(message);
     }
     // next();
   }
@@ -96,7 +99,7 @@ class AccountController extends CRUD {
   async logOut(req, res) {
     res.cookie('accessToken', '', { maxAge: 0 });
     res.cookie('refreshToken', '', { maxAge: 0 });
-    res.redirect('/');
+    res.send({message:"Logout Successfully"})
   }
 }
 
