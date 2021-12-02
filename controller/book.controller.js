@@ -41,7 +41,7 @@ class BookController extends CRUD {
       image_url: req.body.image_url,
     };
     let result = await BookService.createNewBook(book);
-    res.send(result);
+    res.send({message: result});
   }
 
   async update(req, res, next) {
