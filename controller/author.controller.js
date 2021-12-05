@@ -28,7 +28,7 @@ class AuthorController extends CRUD {
    */
   async create(req, res, next) {
     let currentDate = new Date();
-    console.log(uuidv4)
+    console.log(uuidv4);
     let author = {
       id: uuidv4(),
       name: req.body.name,
@@ -38,6 +38,12 @@ class AuthorController extends CRUD {
     };
     let result = await AuthorService.createNewAuthor(author);
     res.send(result);
+  }
+
+  async retrieve(req, res, next) {
+    let authorId = req.params.id;
+    let data = await AuthorService.findAuthorById(authorId);
+    return res.send(data);
   }
 }
 

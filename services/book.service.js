@@ -251,6 +251,63 @@ class BookService extends BaseService {
       }
     }
   }
+
+  static async getBookByAuthor(authorId) {
+    // console.log(authorId);
+    return modelBook.findAll({
+      include: [
+        {
+          model: modelAuthor,
+          as: 'author',
+          through: { attributes: [] },
+          attributes: ['id', 'name'],
+          where: { id: authorId },
+        },
+        {
+          model: modelCategory,
+          as: 'category',
+          through: { attributes: [] },
+          attributes: ['id', 'name'],
+        },
+      ],
+      attributes: [
+        'id',
+        'name',
+        'description',
+        'quantity',
+        'price',
+        'image_url',
+      ],
+    });
+  }
+
+  static async getBookByCategory(categoryId) {
+    return modelBook.findAll({
+      include: [
+        {
+          model: modelAuthor,
+          as: 'author',
+          through: { attributes: [] },
+          attributes: ['id', 'name'],
+        },
+        {
+          model: modelCategory,
+          as: 'category',
+          through: { attributes: [] },
+          attributes: ['id', 'name'],
+          where: { id: categoryId },
+        },
+      ],
+      attributes: [
+        'id',
+        'name',
+        'description',
+        'quantity',
+        'price',
+        'image_url',
+      ],
+    });
+  }
 }
 
 module.exports = BookService;

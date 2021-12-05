@@ -8,4 +8,7 @@ const controller = new CategoryController();
 router.get('/', controller.action('list'));
 router.post('/', controller.action('create'));
 
+// get author by id
+router.get('/:id', controller.action('retrieve'));
+
 module.exports = router;

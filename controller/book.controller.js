@@ -41,7 +41,7 @@ class BookController extends CRUD {
       image_url: req.body.image_url,
     };
     let result = await BookService.createNewBook(book);
-    res.send({message: result});
+    res.send({ message: result });
   }
 
   async update(req, res, next) {
@@ -59,6 +59,20 @@ class BookController extends CRUD {
     };
     let result = await BookService.updateBook(book);
     res.send(result);
+  }
+
+  // Filter author for getting book
+  async filterAuthorList(req, res, next) {
+    const authorId = req.params.id;
+    const data = await BookService.getBookByAuthor(authorId);
+    return res.send(data);
+  }
+
+  // Filter category for getting book
+  async filterCategoryList(req, res, next) {
+    const categoryId = req.params.id;
+    const data = await BookService.getBookByCategory(categoryId);
+    return res.send(data);
   }
 }
 

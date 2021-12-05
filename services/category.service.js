@@ -9,6 +9,9 @@ class CategoryService extends BaseService {
       raw: true,
     });
   }
+  static findCategoryById(categoryId) {
+    return modelCategory.findByPk(categoryId);
+  }
 
   static async findCategoryInTable(dataprop, prop) {
     let resCategory = await modelCategory.findOne({

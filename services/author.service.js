@@ -10,8 +10,8 @@ class AuthorService extends BaseService {
     });
   }
 
-  static findAuthorById(authorid) {
-    return modelAuthor.findByPk(authorid);
+  static findAuthorById(authorId) {
+    return modelAuthor.findByPk(authorId);
   }
 
   static async findAuthorInTable(dataprop, prop) {

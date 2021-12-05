@@ -29,7 +29,7 @@ class TransactionService extends BaseService {
     const t = await db.transaction();
     try {
       const result = await db.transaction(async (t) => {
-        //     consle.log(newTransaction.username);
+        // consle.log(newTransaction.username);
         await modelTransaction.create(
           {
             id: newTransaction.id,

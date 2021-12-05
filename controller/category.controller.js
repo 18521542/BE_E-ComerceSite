@@ -37,6 +37,12 @@ class CategoryController extends CRUD {
     let result = await CategoryService.createNewCategory(category);
     res.send(result);
   }
+
+  async retrieve(req, res, next) {
+    let categoryId = req.params.id;
+    let data = await CategoryService.findCategoryById(categoryId);
+    return res.send(data);
+  }
 }
 
 module.exports = CategoryController;
