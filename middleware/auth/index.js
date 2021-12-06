@@ -4,7 +4,7 @@ const AuthenticationError = require('../../errors/BusinessError');
 //this file contain code to authorize user
 function verifyJWT(jwtSecret) {
   return (req, res, next) => {
-    const accessToken = req.cookies.access_jwt_token;
+    const accessToken = req.cookies.access_jwt_token || req.headers['api_key'];
     jwt.verify(accessToken, jwtSecret, (err, decoded) => {
       if (err) {
         // throw new AuthenticationError(err);
