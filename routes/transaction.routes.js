@@ -6,6 +6,11 @@ const router = express.Router();
 const controller = new TransactionController();
 
 router.get('/', controller.action('list'));
+router.get(
+  '/history',
+  JWT.verifyJWT(process.env.ACCESS_JWT_SECRET),
+  controller.action('listHistory'),
+);
 router.post(
   '/',
   JWT.verifyJWT(process.env.ACCESS_JWT_SECRET),

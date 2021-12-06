@@ -41,6 +41,13 @@ class TransactionController extends CRUD {
     let result = await TransactionService.createNewTransaction(transaction);
     res.send(result);
   }
+
+  // transaction for user
+  async listHistory(req, res) {
+    let username = res.locals.user.account;
+    const data = await TransactionService.getTransaction(username);
+    return res.send(data);
+  }
 }
 
 module.exports = TransactionController;

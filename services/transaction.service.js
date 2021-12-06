@@ -11,6 +11,14 @@ class TransactionService extends BaseService {
     return modelTransaction.findAll({});
   }
 
+  static getTransaction(username) {
+    return modelTransaction.findAll({
+      where: {
+        username: username,
+      },
+    });
+  }
+
   static findTransactionById(transactionid) {
     return modelTransaction.findByPk(transactionid);
   }
@@ -45,9 +53,9 @@ class TransactionService extends BaseService {
         );
         const transactionDetailList = await newTransaction.details;
         if (true) {
-          console.log(transactionDetailList);
+          //console.log(transactionDetailList);
           for (const element of transactionDetailList) {
-            console.log('vao day');
+            //console.log('vao day');
             await modelTransactionDetail.create(
               {
                 transaction_id: newTransaction.id,
