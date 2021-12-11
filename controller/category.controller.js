@@ -14,7 +14,7 @@ class CategoryController extends CRUD {
    */
   async list(req, res) {
     const data = await CategoryService.getAllCategory();
-    return res.send(data);
+    return res.send({ message: data });
   }
 
   /**
@@ -41,7 +41,7 @@ class CategoryController extends CRUD {
   async retrieve(req, res, next) {
     let categoryId = req.params.id;
     let data = await CategoryService.findCategoryById(categoryId);
-    return res.send(data);
+    return res.send({ message: data });
   }
 }
 

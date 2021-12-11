@@ -14,7 +14,7 @@ class TransactionController extends CRUD {
    */
   async list(req, res) {
     const data = await TransactionService.getAllTransaction();
-    return res.send({message: data});
+    return res.send({ message: data });
   }
 
   /**
@@ -39,14 +39,14 @@ class TransactionController extends CRUD {
     };
     // console.log(transaction.details);
     let result = await TransactionService.createNewTransaction(transaction);
-    res.send({message: result});
+    res.send(result);
   }
 
   // transaction for user
   async listHistory(req, res) {
     let username = res.locals.user.account;
     const data = await TransactionService.getTransaction(username);
-    return res.send(data);
+    return res.send({ message: data });
   }
 }
 
