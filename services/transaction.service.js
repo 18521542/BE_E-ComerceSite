@@ -8,7 +8,15 @@ const modelTransactionDetail = model.getInstance().Transaction_detail;
 
 class TransactionService extends BaseService {
   static getAllTransaction() {
-    return modelTransaction.findAll({});
+    return modelTransaction.findAll({
+      include: [
+        {
+          model: modelTransactionDetail,
+          as: 'transaction_detail',
+          attributes: ['transaction_id', 'book_id', 'quantity', 'price_total'],
+        },
+      ],
+    });
   }
 
   static getTransaction(username) {
@@ -16,6 +24,13 @@ class TransactionService extends BaseService {
       where: {
         username: username,
       },
+      include: [
+        {
+          model: modelTransactionDetail,
+          as: 'transaction_detail',
+          attributes: ['transaction_id', 'book_id', 'quantity', 'price_total'],
+        },
+      ],
     });
   }
 
