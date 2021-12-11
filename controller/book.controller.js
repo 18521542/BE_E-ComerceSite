@@ -14,7 +14,7 @@ class BookController extends CRUD {
    */
   async list(req, res) {
     const data = await BookService.getAllBook();
-    return res.send({ message: data });
+    return res.send(data);
   }
 
   /**
@@ -41,7 +41,7 @@ class BookController extends CRUD {
       image_url: req.body.image_url,
     };
     let result = await BookService.createNewBook(book);
-    res.send(result);
+    res.send({ message: result });
   }
 
   async update(req, res, next) {

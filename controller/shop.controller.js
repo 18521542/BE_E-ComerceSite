@@ -14,7 +14,7 @@ class ShopController extends CRUD {
    */
   async list(req, res) {
     const data = await ShopService.getAllShop();
-    return res.send({ message: data });
+    return res.send(data);
   }
 
   /**

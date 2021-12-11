@@ -14,7 +14,7 @@ class AuthorController extends CRUD {
    */
   async list(req, res) {
     const data = await AuthorService.getAllAuthor();
-    return res.send({ message: data });
+    return res.send(data);
   }
 
   /**
@@ -43,7 +43,7 @@ class AuthorController extends CRUD {
   async retrieve(req, res, next) {
     let authorId = req.params.id;
     let data = await AuthorService.findAuthorById(authorId);
-    return res.send({ message: data });
+    return res.send(data);
   }
 }
 
