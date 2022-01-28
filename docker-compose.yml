@@ -10,7 +10,7 @@ services:
     volumes:
       - ./proxy.conf:/etc/nginx/conf.d/default.conf
     ports:
-      - 80:80
+      - ${GATEWAY_PORT}:80
     depends_on:
       - back-end
       - my-database-for-node-app
