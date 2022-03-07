@@ -34,6 +34,7 @@ class AccountService extends BaseService {
 
       // create new account & hash the password with bcrypt
       let hashPassword = await this.hashPassword(newAccount.password);
+      // let typeAccount = newAccount.type ? newAccount.type : 0;
       await modelAccount.create({
         username: newAccount.username,
         password: hashPassword,
@@ -42,6 +43,7 @@ class AccountService extends BaseService {
         telephone: newAccount.telephone,
         address: newAccount.address,
         email: newAccount.email,
+        type: 0,
         created_at: newAccount.currentDate,
         updated_at: newAccount.currentDate,
       });
@@ -58,6 +60,12 @@ class AccountService extends BaseService {
     } else {
       return false;
     }
+  }
+
+  static async getAllAccount() {
+    return modelAccount.findAll({
+      raw: true,
+    });
   }
 }
 

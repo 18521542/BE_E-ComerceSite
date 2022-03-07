@@ -24,6 +24,7 @@ class AccountController extends CRUD {
       email: req.body.email,
       created_at: currentDate,
       updated_at: currentDate,
+      // type: req.body.type,
     };
     let result = await AccountService.createnewAccount(account);
     res.send(result);
@@ -47,17 +48,24 @@ class AccountController extends CRUD {
     // res.send(result);
     if (result) {
       // Sign jwt token when login successfully
+      const dataAccount = await AccountService.findAccount(account.username);
       const access_jwt_token = jwt.sign(
-        { username: account.username },
-        process.env.ACCESS_JWT_SECRET || "duytrongdt",
+        {
+          username: account.username,
+          type: dataAccount.type,
+        },
+        process.env.ACCESS_JWT_SECRET || 'duytrongdt',
         {
           expiresIn: '1h',
         },
       );
 
       const refresh_jwt_token = jwt.sign(
-        { username: account.username },
-        process.env.REFRESH_JWT_SECRET || "kimyenzt",
+        {
+          username: account.username,
+          type: account.type,
+        },
+        process.env.REFRESH_JWT_SECRET || 'kimyenzt',
         {
           expiresIn: '1y',
         },
@@ -81,8 +89,8 @@ class AccountController extends CRUD {
       });
     } else {
       const message = {
-        message: 'Username or password is incorrect. Please try again!'
-      }
+        message: 'Username or password is incorrect. Please try again!',
+      };
       res.send(message);
     }
     // next();
@@ -99,7 +107,13 @@ class AccountController extends CRUD {
   async logOut(req, res) {
     res.cookie('accessToken', '', { maxAge: 0 });
     res.cookie('refreshToken', '', { maxAge: 0 });
-    res.send({message:"Logout Successfully"})
+    res.send({ message: 'Logout Successfully' });
+  }
+
+  // get all account which displayed in database
+  async getAll(req, res) {
+    const data = await AccountService.getAllAccount();
+    return res.send(data);
   }
 }
 

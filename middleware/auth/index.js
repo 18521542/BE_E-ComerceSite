@@ -9,10 +9,10 @@ function verifyJWT(jwtSecret) {
       if (err) {
         // throw new AuthenticationError(err);
         res.status(401).send({
-          message: JSON.stringify(err), 
-          status: 'Error authorization' 
+          message: JSON.stringify(err),
+          status: 'Error authorization',
         });
-        return
+        return;
       }
       if (decoded) {
         // get the account data to know who is authorized
@@ -23,6 +23,41 @@ function verifyJWT(jwtSecret) {
           throw new AuthenticationError('Invalid Data for authorization');
         }
         res.locals.user = accountData; //eslint-disable-line
+      }
+      next();
+    });
+  };
+}
+
+function verifyRoleAdmin(jwtSecret) {
+  return (req, res, next) => {
+    const accessToken = req.cookies.access_jwt_token || req.headers['api_key'];
+    jwt.verify(accessToken, jwtSecret, (err, decoded) => {
+      if (err) {
+        // throw new AuthenticationError(err);
+        res.status(401).send({
+          message: JSON.stringify(err),
+          status: 'Error authorization',
+        });
+        return;
+      }
+      if (decoded) {
+        // get the account data to know who is authorized
+        const typeRole = decoded.type;
+
+        // console.log('type role la:', typeRole);
+        if (!typeRole) {
+          throw new AuthenticationError(
+            'You do not have permission to access this resource',
+          );
+        }
+        // normal user role
+        // else if (typeRole == 0) {
+        //   console.log('vao day');
+        //   throw new AuthenticationError(
+        //     'You do not have permission to access this resource',
+        //   );
+        // }
       }
       next();
     });
@@ -40,7 +75,10 @@ function renewAccessJWT() {
           if (err) throw new AuthenticationError(err);
           else {
             const newAccessToken = jwt.sign(
-              { username: decoded.username },
+              {
+                username: decoded.username,
+                type: decoded.type,
+              },
               process.env.ACCESS_JWT_SECRET,
               {
                 expiresIn: '30s',
@@ -67,4 +105,4 @@ function renewAccessJWT() {
 //   });
 // }
 
-module.exports = { verifyJWT, renewAccessJWT };
+module.exports = { verifyJWT, renewAccessJWT, verifyRoleAdmin };
