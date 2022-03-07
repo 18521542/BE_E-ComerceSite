@@ -21,6 +21,13 @@ router.put(
   controller.action('update'),
 );
 
+// change password
+router.put(
+  '/changepassword',
+  JWT.verifyJWT(process.env.ACCESS_JWT_SECRET),
+  controller.changePassword,
+);
+
 // get all account for handling
 // => only the account granted admin permission access to this api
 router.get(
@@ -30,5 +37,10 @@ router.get(
 );
 
 // set role (just admin have this permission)
+router.put(
+  '/setRole/:username',
+  JWT.verifyRoleAdmin(process.env.ACCESS_JWT_SECRET),
+  controller.setRole,
+);
 
 module.exports = router;

@@ -104,6 +104,69 @@ class AccountService extends BaseService {
       raw: true,
     });
   }
+
+  static async updateRole(account) {
+    // console.log('username', account);
+    const resultFindAccount = await this.findAccount(account.username);
+    // check if id's existed or not
+    if (!resultFindAccount) {
+      return 'Not found account with this username';
+    } else {
+      const t = await db.transaction();
+      try {
+        const result = await db.transaction(async (t) => {
+          resultFindAccount.type = account.type;
+          await resultFindAccount.save({ transaction: t });
+        });
+        const mess = {
+          mess: 'set role account info successfully',
+          data: await modelAccount.findOne({
+            where: {
+              username: account.username,
+            },
+            raw: false,
+          }),
+        };
+        return mess;
+      } catch (err) {
+        console.log(err);
+        await t.rollback();
+        return err.toString();
+      }
+    }
+  }
+
+  static async changePassword(account) {
+    // console.log('username', account);
+    const resultFindAccount = await this.findAccount(account.username);
+    // check if id's existed or not
+    if (!resultFindAccount) {
+      return 'Not found account with this username';
+    } else {
+      const t = await db.transaction();
+      try {
+        let hashPassword = await this.hashPassword(account.newPassword);
+        const result = await db.transaction(async (t) => {
+          resultFindAccount.password = hashPassword;
+          await resultFindAccount.save({ transaction: t });
+        });
+        const mess = {
+          mess: 'set new password successfully',
+          data: await modelAccount.findOne({
+            where: {
+              username: account.username,
+            },
+            raw: false,
+          }),
+        };
+        return mess;
+      } catch (err) {
+        console.log(err);
+        await t.rollback();
+        return err.toString();
+      }
+    }
+  }
 }
 
 module.exports = AccountService;

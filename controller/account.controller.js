@@ -122,11 +122,37 @@ class AccountController extends CRUD {
     res.cookie('refreshToken', '', { maxAge: 0 });
     res.send({ message: 'Logout Successfully' });
   }
+  async changePassword(req, res, next) {
+    let account = {
+      username: res.locals.user.account,
+      password: req.body.password,
+      newPassword: req.body.newPassword,
+    };
+    let result = await AccountService.checkAccount(account);
+    if (result) {
+      let mess = await AccountService.changePassword(account);
+      res.send(mess);
+    } else {
+      const message = {
+        message: 'Old password is incorrect. Please try again!',
+      };
+      res.send(message);
+    }
+  }
 
   // get all account which displayed in database
-  async getAll(req, res) {
+  async getAll(req, res, next) {
     const data = await AccountService.getAllAccount();
     return res.send(data);
+  }
+
+  async setRole(req, res, next) {
+    let account = {
+      username: req.params.username,
+      type: req.body.type,
+    };
+    let result = await AccountService.updateRole(account);
+    res.send(result);
   }
 }
 
