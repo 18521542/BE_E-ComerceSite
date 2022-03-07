@@ -96,6 +96,19 @@ class AccountController extends CRUD {
     // next();
   }
 
+  async update(req, res, next) {
+    // let currentDate = new Date();
+    let account = {
+      username: res.locals.user.account,
+      photo: req.body.photo,
+      name: req.body.name,
+      telephone: req.body.telephone,
+      email: req.body.email,
+    };
+    let result = await AccountService.updateAccount(account);
+    res.send(result);
+  }
+
   /**
    * logout - logout an account, delete the access and refresh Token.
    *

@@ -14,6 +14,13 @@ router.get('/refresh-token', JWT.renewAccessJWT(), (req, res) => {
   res.sendStatus(200).json({ status: 'successfully created' });
 });
 
+// update info account
+router.put(
+  '/update',
+  JWT.verifyJWT(process.env.ACCESS_JWT_SECRET),
+  controller.action('update'),
+);
+
 // get all account for handling
 // => only the account granted admin permission access to this api
 router.get(
@@ -21,5 +28,7 @@ router.get(
   JWT.verifyRoleAdmin(process.env.ACCESS_JWT_SECRET),
   controller.getAll,
 );
+
+// set role (just admin have this permission)
 
 module.exports = router;

@@ -1,3 +1,5 @@
+const connection = require('../database/connect');
+const db = connection.getConnection();
 const model = require('../model');
 const BaseService = require('./base.service');
 const bcrypt = require('bcrypt');
@@ -50,6 +52,41 @@ class AccountService extends BaseService {
       result.message = 'successfully created';
     }
     return result;
+  }
+
+  static async updateAccount(account) {
+    // console.log('username', account);
+    const resultFindAccount = await this.findAccount(account.username);
+    // check if id's existed or not
+    if (!resultFindAccount) {
+      return 'Not found account with this username';
+    } else {
+      const t = await db.transaction();
+      try {
+        const result = await db.transaction(async (t) => {
+          resultFindAccount.photo = account.photo;
+          resultFindAccount.name = account.name;
+          resultFindAccount.telephone = account.telephone;
+          resultFindAccount.address = account.address;
+          resultFindAccount.email = account.email;
+          await resultFindAccount.save({ transaction: t });
+        });
+        const mess = {
+          mess: 'update account info successfully',
+          data: await modelAccount.findOne({
+            where: {
+              username: account.username,
+            },
+            raw: false,
+          }),
+        };
+        return mess;
+      } catch (err) {
+        console.log(err);
+        await t.rollback();
+        return err.toString();
+      }
+    }
   }
 
   static async checkAccount(data) {
