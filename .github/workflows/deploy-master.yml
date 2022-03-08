@@ -13,4 +13,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag duytronguit:ecommerce
+      run: docker build . --file Dockerfile --tag duytronguit/ecommerce
+    - name: Get Docker Hub Credentials
+      run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+    - name: Push image
+      run: docker push duytronguit/ecommerce
