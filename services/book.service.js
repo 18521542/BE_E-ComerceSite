@@ -245,7 +245,6 @@ class BookService extends BaseService {
         };
         return mess;
       } catch (err) {
-        console.log(err);
         await t.rollback();
         return err.toString();
       }
@@ -253,7 +252,6 @@ class BookService extends BaseService {
   }
 
   static async getBookByAuthor(authorId) {
-    // console.log(authorId);
     return modelBook.findAll({
       include: [
         {

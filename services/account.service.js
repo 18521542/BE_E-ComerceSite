@@ -55,7 +55,6 @@ class AccountService extends BaseService {
   }
 
   static async updateAccount(account) {
-    // console.log('username', account);
     const resultFindAccount = await this.findAccount(account.username);
     // check if id's existed or not
     if (!resultFindAccount) {
@@ -82,7 +81,6 @@ class AccountService extends BaseService {
         };
         return mess;
       } catch (err) {
-        console.log(err);
         await t.rollback();
         return err.toString();
       }
@@ -106,7 +104,6 @@ class AccountService extends BaseService {
   }
 
   static async updateRole(account) {
-    // console.log('username', account);
     const resultFindAccount = await this.findAccount(account.username);
     // check if id's existed or not
     if (!resultFindAccount) {
@@ -129,7 +126,6 @@ class AccountService extends BaseService {
         };
         return mess;
       } catch (err) {
-        console.log(err);
         await t.rollback();
         return err.toString();
       }
@@ -137,7 +133,6 @@ class AccountService extends BaseService {
   }
 
   static async changePassword(account) {
-    // console.log('username', account);
     const resultFindAccount = await this.findAccount(account.username);
     // check if id's existed or not
     if (!resultFindAccount) {
@@ -161,7 +156,6 @@ class AccountService extends BaseService {
         };
         return mess;
       } catch (err) {
-        console.log(err);
         await t.rollback();
         return err.toString();
       }
