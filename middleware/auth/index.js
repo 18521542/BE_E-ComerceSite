@@ -34,7 +34,6 @@ function verifyRoleAdmin(jwtSecret) {
     const accessToken = req.cookies.access_jwt_token || req.headers['api_key'];
     jwt.verify(accessToken, jwtSecret, (err, decoded) => {
       if (err) {
-        // throw new AuthenticationError(err);
         res.status(401).send({
           message: JSON.stringify(err),
           status: 'Error authorization',
@@ -45,19 +44,11 @@ function verifyRoleAdmin(jwtSecret) {
         // get the account data to know who is authorized
         const typeRole = decoded.type;
 
-        // console.log('type role la:', typeRole);
         if (!typeRole) {
           throw new AuthenticationError(
             'You do not have permission to access this resource',
           );
         }
-        // normal user role
-        // else if (typeRole == 0) {
-        //   console.log('vao day');
-        //   throw new AuthenticationError(
-        //     'You do not have permission to access this resource',
-        //   );
-        // }
       }
       next();
     });
