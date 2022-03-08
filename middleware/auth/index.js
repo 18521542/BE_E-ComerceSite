@@ -89,10 +89,4 @@ function renewAccessJWT() {
   };
 }
 
-// function signJWT(payload, expired) {
-//   return jwt.sign({ payload }, process.env.ACCESS_JWT_SECRET, {
-//     expiresIn: '30s',
-//   });
-// }
-
 module.exports = { verifyJWT, renewAccessJWT, verifyRoleAdmin };
