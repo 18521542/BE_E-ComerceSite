@@ -7,7 +7,6 @@ function verifyJWT(jwtSecret) {
     const accessToken = req.cookies.access_jwt_token || req.headers['api_key'];
     jwt.verify(accessToken, jwtSecret, (err, decoded) => {
       if (err) {
-        // throw new AuthenticationError(err);
         res.status(401).send({
           message: JSON.stringify(err),
           status: 'Error authorization',

@@ -24,7 +24,6 @@ class AccountController extends CRUD {
       email: req.body.email,
       created_at: currentDate,
       updated_at: currentDate,
-      // type: req.body.type,
     };
     let result = await AccountService.createnewAccount(account);
     res.send(result);
@@ -45,7 +44,7 @@ class AccountController extends CRUD {
       password: req.body.password,
     };
     let result = await AccountService.checkAccount(account);
-    // res.send(result);
+
     if (result) {
       // Sign jwt token when login successfully
       const dataAccount = await AccountService.findAccount(account.username);
@@ -97,7 +96,6 @@ class AccountController extends CRUD {
   }
 
   async update(req, res, next) {
-    // let currentDate = new Date();
     let account = {
       username: res.locals.user.account,
       photo: req.body.photo,
