@@ -21,3 +21,8 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
     - name: Push image
       run: docker push duytronguit/ecommerce
+    - name: Deploy to server
+      uses: digitalocean/action-doctl@v2
+      with:
+        token: ${{ secrets.DO_PAT }}
+      run: doctl compute ssh root@139.59.246.216 / docker-compose down / docker-compose build / docker-compose up
