@@ -92,7 +92,6 @@ class AccountController extends CRUD {
       };
       res.send(message);
     }
-    // next();
   }
 
   async update(req, res, next) {
