@@ -5,8 +5,10 @@ const model = require('./model');
 const pathToMigration = `${__dirname}/migrations/`;
 const routes = require('./routes');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 const app = express();
+app.use(cors());
 
 let port = process.env.BE_PORT || 3000;
 

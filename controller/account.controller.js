@@ -44,20 +44,27 @@ class AccountController extends CRUD {
       password: req.body.password,
     };
     let result = await AccountService.checkAccount(account);
-    // res.send(result);
+
     if (result) {
       // Sign jwt token when login successfully
+      const dataAccount = await AccountService.findAccount(account.username);
       const access_jwt_token = jwt.sign(
-        { username: account.username },
-        process.env.ACCESS_JWT_SECRET || "duytrongdt",
+        {
+          username: account.username,
+          type: dataAccount.type,
+        },
+        process.env.ACCESS_JWT_SECRET || 'duytrongdt',
         {
           expiresIn: '1h',
         },
       );
 
       const refresh_jwt_token = jwt.sign(
-        { username: account.username },
-        process.env.REFRESH_JWT_SECRET || "kimyenzt",
+        {
+          username: account.username,
+          type: account.type,
+        },
+        process.env.REFRESH_JWT_SECRET || 'kimyenzt',
         {
           expiresIn: '1y',
         },
@@ -81,11 +88,22 @@ class AccountController extends CRUD {
       });
     } else {
       const message = {
-        message: 'Username or password is incorrect. Please try again!'
-      }
+        message: 'Username or password is incorrect. Please try again!',
+      };
       res.send(message);
     }
-    // next();
+  }
+
+  async update(req, res, next) {
+    let account = {
+      username: res.locals.user.account,
+      photo: req.body.photo,
+      name: req.body.name,
+      telephone: req.body.telephone,
+      email: req.body.email,
+    };
+    let result = await AccountService.updateAccount(account);
+    res.send(result);
   }
 
   /**
@@ -99,7 +117,39 @@ class AccountController extends CRUD {
   async logOut(req, res) {
     res.cookie('accessToken', '', { maxAge: 0 });
     res.cookie('refreshToken', '', { maxAge: 0 });
-    res.send({message:"Logout Successfully"})
+    res.send({ message: 'Logout Successfully' });
+  }
+  async changePassword(req, res, next) {
+    let account = {
+      username: res.locals.user.account,
+      password: req.body.password,
+      newPassword: req.body.newPassword,
+    };
+    let result = await AccountService.checkAccount(account);
+    if (result) {
+      let mess = await AccountService.changePassword(account);
+      res.send(mess);
+    } else {
+      const message = {
+        message: 'Old password is incorrect. Please try again!',
+      };
+      res.send(message);
+    }
+  }
+
+  // get all account which displayed in database
+  async getAll(req, res, next) {
+    const data = await AccountService.getAllAccount();
+    return res.send(data);
+  }
+
+  async setRole(req, res, next) {
+    let account = {
+      username: req.params.username,
+      type: req.body.type,
+    };
+    let result = await AccountService.updateRole(account);
+    res.send(result);
   }
 }
 
