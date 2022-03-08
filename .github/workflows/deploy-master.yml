@@ -31,8 +31,8 @@ jobs:
 
     - name: Verify SSH Credential
       uses: webfactory/ssh-agent@v0.5.4
-        with:
-          ssh-private-key: ${{ secrets.PRIVATE_KEY_ACCESS_DO }}
+      with:
+        ssh-private-key: ${{ secrets.PRIVATE_KEY_ACCESS_DO }}
 
     - name: Get source code
       run: doctl compute ssh kltn / docker-compose down / docker-compose build / docker-compose up
