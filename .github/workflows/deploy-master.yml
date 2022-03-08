@@ -32,12 +32,11 @@ jobs:
     - name: Create SSH key
       run: |
         mkdir -p ~/.ssh/
-        echo "$SSH_PRIVATE_KEY" > ../private.key
-        sudo chmod 600 ../private.key
+        cd ~/.ssh
+        echo "$SSH_PRIVATE_KEY" > id_rsa
       shell: bash
       env:
         SSH_PRIVATE_KEY:  ${{ secrets.PRIVATE_KEY_ACCESS_DO }}
-        SSH_KEY_PATH: ${{ github.workspace }}/../private.key
 
     - name: Get source code
       run: doctl compute ssh kltn / docker-compose down / docker-compose build / docker-compose up
