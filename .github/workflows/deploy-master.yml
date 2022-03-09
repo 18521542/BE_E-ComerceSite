@@ -51,12 +51,12 @@ jobs:
         docker-compose up
       shell: bash
       env:
-        DB_NAME: {{ secrets.DB_NAME }}
-        DB_HOST: {{ secrets.DB_HOST }}
-        DB_PORT: {{ secrets.DB_PORT }}
-        DB_PASSWORD: {{ secrets.DB_PASSWORD }}
-        DB_USER: {{ secrets.DB_USER }}
-        DB_ROOT_PASSWORD: {{ secrets.DB_ROOT_PASSWORD }}
-        BE_PORT: {{ secrets.BE_PORT }}
-        ACCESS_JWT_SECRET: {{ secrets.ACCESS_JWT_SECRET }}
-        REFRESH_JWT_SECRET: {{ secrets.REFRESH_JWT_SECRET }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_PORT: ${{ secrets.DB_PORT }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_ROOT_PASSWORD: ${{ secrets.DB_ROOT_PASSWORD }}
+        BE_PORT: ${{ secrets.BE_PORT }}
+        ACCESS_JWT_SECRET: ${{ secrets.ACCESS_JWT_SECRET }}
+        REFRESH_JWT_SECRET: ${{ secrets.REFRESH_JWT_SECRET }}
