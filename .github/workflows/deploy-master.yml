@@ -44,7 +44,7 @@ jobs:
 
     - name: Get source code
       run: |
-        ssh -tt root@139.59.246.216
+        doctl compute ssh kltn
         docker-compose down
         docker-compose build
         docker-compose up
