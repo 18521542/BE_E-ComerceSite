@@ -43,4 +43,4 @@ jobs:
         SSH_KNOWN_HOSTS:  ${{ secrets.KNOWN_HOSTS }}
 
     - name: Get source code
-      run: doctl compute ssh root@kltn / docker-compose down / docker-compose build / docker-compose up
+      run: doctl compute ssh -tt root@kltn / docker-compose down / docker-compose build / docker-compose up
