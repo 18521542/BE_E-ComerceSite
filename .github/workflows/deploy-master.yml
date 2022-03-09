@@ -35,7 +35,7 @@ jobs:
         cd ~/.ssh
         echo "$SSH_PRIVATE_KEY" > id_rsa
         echo "$SSH_PUBLIC_KEY" > id_rsa.pub
-        echo "$SSH_PRIVATE_KEY" > known_hosts
+        echo "$SSH_KNOWN_HOSTS" > known_hosts
       shell: bash
       env:
         SSH_PRIVATE_KEY:  ${{ secrets.PRIVATE_KEY_ACCESS_DO }}
