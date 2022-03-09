@@ -19,7 +19,6 @@ router.use('/api/book', book);
 // Shop, payment, shipper, coupon api
 router.use('/api/shop', shop);
 
-// Transaction
 router.use('/api/transaction', transaction);
 
 module.exports = router;
