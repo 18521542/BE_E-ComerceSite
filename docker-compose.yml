@@ -22,7 +22,7 @@ services:
   back-end:
     build:
       context: .
-      Dockerfile: Dockerfile
+      dockerfile: Dockerfile
     ports:
       - '${BE_PORT}:${BE_PORT}'
     volumes:
