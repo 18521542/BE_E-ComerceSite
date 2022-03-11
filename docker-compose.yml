@@ -20,7 +20,9 @@ services:
       - my-app-network
 
   back-end:
-    image: duytronguit/ecommerce
+    build:
+      context: .
+      Dockerfile: Dockerfile
     ports:
       - '${BE_PORT}:${BE_PORT}'
     volumes:
