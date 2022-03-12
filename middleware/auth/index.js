@@ -83,7 +83,7 @@ function renewAccessJWT() {
         },
       );
     else {
-      return res.sendStatus(401);
+      return res.status(401).send({message: "un-authorized"});
     }
     next();
   };

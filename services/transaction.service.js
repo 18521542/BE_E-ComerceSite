@@ -68,9 +68,7 @@ class TransactionService extends BaseService {
         );
         const transactionDetailList = await newTransaction.details;
         if (true) {
-          //console.log(transactionDetailList);
           for (const element of transactionDetailList) {
-            //console.log('vao day');
             await modelTransactionDetail.create(
               {
                 transaction_id: newTransaction.id,

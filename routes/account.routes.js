@@ -11,7 +11,7 @@ router.get('/logout', controller.logOut);
 
 // jwt refresh
 router.get('/refresh-token', JWT.renewAccessJWT(), (req, res) => {
-  res.sendStatus(200).json({ status: 'successfully created' });
+  res.status(200).json({ status: 'successfully created' });
 });
 
 // update info account
