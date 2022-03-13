@@ -57,7 +57,7 @@ services:
       - '${DB_PORT}:3306'
 
   front-end:
-    image: linhleba/admin-panel
+    image: linhleba/test
     container_name: front-end
     ports:
       - '3000:3000'
