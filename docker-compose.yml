@@ -14,6 +14,7 @@ services:
     depends_on:
       - back-end
       - my-database-for-node-app
+      - front-end
     environment:
       - BE_PORT=${BE_PORT}
     networks:
@@ -63,3 +64,6 @@ services:
       - '3000:3000'
     networks:
       - my-app-network
+    depends_on:
+      - my-database-for-node-app
+      - back-end
