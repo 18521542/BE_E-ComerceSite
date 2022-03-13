@@ -55,10 +55,10 @@ services:
     ports:
       - '${DB_PORT}:3306'
 
-  # front-end:
-  #   image: linhleba/admin-panel
-  #   container_name: frontend
-  #   ports:
-  #     - '3000:3000'
-  #   networks:
-  #     - my-app-network
+  front-end:
+    image: linhleba/admin-panel
+    container_name: frontend
+    ports:
+      - '3000:3000'
+    networks:
+      - my-app-network
