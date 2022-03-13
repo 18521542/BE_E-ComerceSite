@@ -23,6 +23,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: back-end
     ports:
       - '${BE_PORT}:${BE_PORT}'
     volumes:
@@ -57,7 +58,7 @@ services:
 
   front-end:
     image: linhleba/admin-panel
-    container_name: frontend
+    container_name: front-end
     ports:
       - '3000:3000'
     networks:
