@@ -60,3 +60,5 @@ services:
   #   container_name: frontend
   #   ports:
   #     - '3000:3000'
+  #   networks:
+  #     - my-app-network
