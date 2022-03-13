@@ -14,7 +14,6 @@ services:
     depends_on:
       - back-end
       - my-database-for-node-app
-      - front-end
     environment:
       - BE_PORT=${BE_PORT}
     networks:
@@ -46,6 +45,7 @@ services:
   my-database-for-node-app:
     image: mysql:8.0
     container_name: '${DB_HOST}'
+    restart: unless-stopped
     networks:
       - my-app-network
     environment:
@@ -57,14 +57,3 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     ports:
       - '${DB_PORT}:3306'
-
-  front-end:
-    image: linhleba/admin-panel
-    container_name: front-end
-    ports:
-      - '3000:3000'
-    networks:
-      - my-app-network
-    depends_on:
-      - my-database-for-node-app
-      - back-end
