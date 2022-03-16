@@ -101,6 +101,7 @@ class AccountController extends CRUD {
       name: req.body.name,
       telephone: req.body.telephone,
       email: req.body.email,
+      address: req.body.address,
     };
     let result = await AccountService.updateAccount(account);
     res.send(result);
