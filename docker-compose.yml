@@ -3,21 +3,21 @@ networks:
   my-app-network: null
 
 services:
-  # proxy:
-  #   image: nginx:alpine
-  #   container_name: web-proxy
-  #   restart: unless-stopped
-  #   volumes:
-  #     - ./proxy.conf:/etc/nginx/conf.d/default.conf
-  #   ports:
-  #     - ${GATEWAY_PORT}:80
-  #   depends_on:
-  #     - back-end
-  #     - my-database-for-node-app
-  #   environment:
-  #     - BE_PORT=${BE_PORT}
-  #   networks:
-  #     - my-app-network
+  proxy:
+    image: nginx:alpine
+    container_name: web-proxy
+    restart: unless-stopped
+    volumes:
+      - ./proxy.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - ${GATEWAY_PORT}:80
+    depends_on:
+      - back-end
+      - my-database-for-node-app
+    environment:
+      - BE_PORT=${BE_PORT}
+    networks:
+      - my-app-network
 
   back-end:
     build:
