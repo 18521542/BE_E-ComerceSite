@@ -57,7 +57,7 @@ class TransactionService extends BaseService {
           {
             id: newTransaction.id,
             username: newTransaction.username,
-            status: 'not delivery',
+            status: 0,
             price_total: newTransaction.price_total,
             updated_at: newTransaction.currentDate,
             created_at: newTransaction.currentDate,
@@ -109,6 +109,36 @@ class TransactionService extends BaseService {
     } catch (err) {
       await t.rollback();
       return err.toString();
+    }
+  }
+
+  static async updateStatus(transactionId, status) {
+    const resFindTransaction = await this.findTransactionById(transactionId);
+    console.log(status);
+    if (!resFindTransaction) {
+      const mess = "mess: 'err not found";
+      return mess;
+    } else {
+      const t = await db.transaction();
+      try {
+        const result = await db.transaction(async (t) => {
+          resFindTransaction.status = status;
+          await resFindTransaction.save({ transaction: t });
+        });
+        const mess = {
+          mess: 'set status info successfully',
+          data: await modelTransaction.findOne({
+            where: {
+              id: transactionId,
+            },
+            raw: false,
+          }),
+        };
+        return mess;
+      } catch (err) {
+        await t.rollback();
+        return err.toString();
+      }
     }
   }
 }
