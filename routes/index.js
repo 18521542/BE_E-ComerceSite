@@ -7,11 +7,11 @@ const book = require('./book.routes');
 const shop = require('./shop.routes');
 const transaction = require('./transaction.routes');
 
-router.use('/api/account', account);
-router.use('/api/author', author);
-router.use('/api/category', category);
-router.use('/api/book', book);
-router.use('/api/shop', shop);
-router.use('/api/transaction', transaction);
+router.use('/account', account);
+router.use('/author', author);
+router.use('/category', category);
+router.use('/book', book);
+router.use('/shop', shop);
+router.use('/transaction', transaction);
 
 module.exports = router;
