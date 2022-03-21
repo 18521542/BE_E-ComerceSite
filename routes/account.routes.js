@@ -21,6 +21,13 @@ router.put(
   controller.action('update'),
 );
 
+// get user info
+router.get(
+  '/info',
+  JWT.verifyJWT(process.env.ACCESS_JWT_SECRET),
+  controller.getInfo,
+);
+
 // change password
 router.put(
   '/changepassword',

@@ -101,9 +101,17 @@ class AccountController extends CRUD {
       name: req.body.name,
       telephone: req.body.telephone,
       email: req.body.email,
+      address: req.body.address,
     };
     let result = await AccountService.updateAccount(account);
     res.send(result);
+  }
+
+  // get user info
+  async getInfo(req, res, next) {
+    let username = res.locals.user.account;
+    const data = await AccountService.getInfo(username);
+    return res.send(data);
   }
 
   /**
