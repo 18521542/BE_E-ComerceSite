@@ -6,9 +6,17 @@ const pathToMigration = `${__dirname}/migrations/`;
 const routes = require('./routes');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const https = require('https');
+const fs = require('fs');
+
+const options = {
+  key: fs.readFileSync('key.pem'),
+  cert: fs.readFileSync('cert.pem'),
+};
+console.log(options);
 
 const app = express();
-const FE_HOST = process.env.FE_HOST
+const FE_HOST = process.env.FE_HOST;
 app.use(cors({ credentials: true, origin: FE_HOST }));
 let port = process.env.BE_PORT || 3000;
 
@@ -27,6 +35,6 @@ app.get('/', function (req, res) {
 
 app.use('/', routes);
 
-app.listen(port, () => {
+https.createServer(options, app).listen(port, () => {
   console.log(`app is listening on ${port}`);
 });

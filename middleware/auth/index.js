@@ -37,8 +37,6 @@ function verifyRoleAdmin(jwtSecret) {
       req.cookies.access_jwt_token ||
       req.headers['api_key'] ||
       req.headers['authorization'];
-    console.log('header authorization', req.headers['authorization']);
-    console.log('api_key', req.headers['api_key']);
     jwt.verify(accessToken, jwtSecret, (err, decoded) => {
       if (err) {
         res.status(401).send({
