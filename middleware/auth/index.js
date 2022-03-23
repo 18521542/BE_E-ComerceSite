@@ -4,7 +4,10 @@ const AuthenticationError = require('../../errors/BusinessError');
 //this file contain code to authorize user
 function verifyJWT(jwtSecret) {
   return (req, res, next) => {
-    const accessToken = req.cookies.access_jwt_token || req.headers['api_key'];
+    const accessToken =
+      req.cookies.access_jwt_token ||
+      req.headers['api_key'] ||
+      req.headers['authorization'];
     jwt.verify(accessToken, jwtSecret, (err, decoded) => {
       if (err) {
         res.status(401).send({
@@ -30,7 +33,12 @@ function verifyJWT(jwtSecret) {
 
 function verifyRoleAdmin(jwtSecret) {
   return (req, res, next) => {
-    const accessToken = req.cookies.access_jwt_token || req.headers['api_key'];
+    const accessToken =
+      req.cookies.access_jwt_token ||
+      req.headers['api_key'] ||
+      req.headers['authorization'];
+    console.log('header authorization', req.headers['authorization']);
+    console.log('api_key', req.headers['api_key']);
     jwt.verify(accessToken, jwtSecret, (err, decoded) => {
       if (err) {
         res.status(401).send({
@@ -83,7 +91,7 @@ function renewAccessJWT() {
         },
       );
     else {
-      return res.status(401).send({message: "un-authorized"});
+      return res.status(401).send({ message: 'un-authorized' });
     }
     next();
   };
