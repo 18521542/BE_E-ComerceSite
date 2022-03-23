@@ -87,6 +87,14 @@ class AccountService extends BaseService {
     }
   }
 
+  static async getInfo(username) {
+    try {
+      return this.findAccount(username);
+    } catch (err) {
+      return err.toString();
+    }
+  }
+
   static async checkAccount(data) {
     const resFindAccount = await this.findAccount(data.username);
     if (resFindAccount) {

@@ -8,8 +8,8 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
 const app = express();
-app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
-
+const FE_HOST = process.env.FE_HOST
+app.use(cors({ credentials: true, origin: FE_HOST }));
 let port = process.env.BE_PORT || 3000;
 
 // package for getting value in cookie
@@ -20,7 +20,6 @@ app.use(express.json());
 
 db.connect();
 db.migrateDB(model.getInstance(), pathToMigration);
-// console.log(model);
 
 app.get('/', function (req, res) {
   res.send('API is running...');

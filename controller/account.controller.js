@@ -107,6 +107,13 @@ class AccountController extends CRUD {
     res.send(result);
   }
 
+  // get user info
+  async getInfo(req, res, next) {
+    let username = res.locals.user.account;
+    const data = await AccountService.getInfo(username);
+    return res.send(data);
+  }
+
   /**
    * logout - logout an account, delete the access and refresh Token.
    *
