@@ -4,6 +4,7 @@ const model = require('../model');
 const BaseService = require('./base.service');
 const bcrypt = require('bcrypt');
 const saltRounds = bcrypt.genSaltSync(10);
+const { OAuth2Client } = require('google-auth-library');
 
 const modelAccount = model.getInstance().Account;
 
@@ -167,6 +168,28 @@ class AccountService extends BaseService {
         await t.rollback();
         return err.toString();
       }
+    }
+  }
+
+  static async authenticateGoogle(token) {
+    const client = new OAuth2Client(process.env.CLIENT_GOOGLE_ID);
+    try {
+      const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: process.env.CLIENT_GOOGLE_ID, // Specify the CLIENT_ID of the app that accesses the backend
+        // Or, if multiple clients access the backend:
+        //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+      });
+      const payload = ticket.getPayload();
+      // console.log(ticket)
+      const isExistedAccount = await this.findAccount(payload.sub);
+      const message = {
+        iss: payload.iss,
+        isExistedAccount: isExistedAccount ? isExistedAccount : null,
+      };
+      return message;
+    } catch (err) {
+      return err.toString();
     }
   }
 }
