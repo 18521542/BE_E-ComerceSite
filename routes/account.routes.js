@@ -50,4 +50,7 @@ router.put(
   controller.setRole,
 );
 
+// GOOGLE AUTHENTICATION
+router.post('/loginGoogle', controller.authenticateGoogle);
+
 module.exports = router;
