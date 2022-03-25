@@ -5,6 +5,7 @@ const router = express.Router();
 
 const controller = new BookController();
 
+router.get('/:id', controller.action('retrieve'));
 router.get('/', controller.action('list'));
 router.post('/', controller.action('create'));
 router.put('/:id', controller.action('update'));
