@@ -17,6 +17,11 @@ class BookController extends CRUD {
     return res.send(data);
   }
 
+  async retrieve(req, res) {
+    const data = await BookService.findBookById(req.params.id)
+    return res.send(data)
+  }
+
   /**
    * create - creates a new entity.
    *
