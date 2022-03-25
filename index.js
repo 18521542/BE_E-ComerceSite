@@ -33,11 +33,8 @@ app.get('/', function (req, res) {
   res.send('API is running...');
 });
 
-app.use('/api', routes);
+app.use('/', routes);
 
-app.listen(port, () => {
+https.createServer(options, app).listen(port, () => {
   console.log(`app is listening on ${port}`);
 });
-// https.createServer(options, app).listen(port, () => {
-//   console.log(`app is listening on ${port}`);
-// });
