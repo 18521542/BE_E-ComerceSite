@@ -53,4 +53,10 @@ router.put(
 // GOOGLE AUTHENTICATION
 router.post('/loginGoogle', controller.authenticateGoogle);
 
+// get account
+router.get(
+  'getAccount/:username',
+  JWT.verifyRoleAdmin(process.env.ACCESS_JWT_SECRET),
+  controller.getAccount,
+);
 module.exports = router;
