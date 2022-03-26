@@ -53,4 +53,6 @@ router.put(
 // GOOGLE AUTHENTICATION
 router.post('/loginGoogle', controller.authenticateGoogle);
 
+router.get('/getAccount/:username', controller.getAccount);
+
 module.exports = router;

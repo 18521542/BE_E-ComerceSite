@@ -18,8 +18,8 @@ class BookController extends CRUD {
   }
 
   async retrieve(req, res) {
-    const data = await BookService.findBookById(req.params.id)
-    return res.send(data)
+    const data = await BookService.findBookById(req.params.id);
+    return res.send(data);
   }
 
   /**
