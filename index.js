@@ -28,11 +28,11 @@ app.use(express.json());
 db.connect();
 db.migrateDB(model.getInstance(), pathToMigration);
 
-app.get('/api', function (req, res) {
+app.get('/', function (req, res) {
   res.send('API is running...');
 });
 
-app.use('/api', routes);
+app.use('/', routes);
 
 
 https.createServer(options, app).listen(port, () => {
