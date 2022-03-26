@@ -56,6 +56,11 @@ class TransactionController extends CRUD {
     const data = await TransactionService.updateStatus(transactionId, status);
     return res.send(data);
   }
+
+  async getTopUser(req, res) {
+    const data = await TransactionService.getTopUser();
+    return res.send(data);
+  }
 }
 
 module.exports = TransactionController;

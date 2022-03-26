@@ -26,5 +26,6 @@ router.put(
   JWT.verifyJWT(process.env.ACCESS_JWT_SECRET),
   controller.updateStatus,
 );
+router.get('/topuser', controller.getTopUser);
 
 module.exports = router;
