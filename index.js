@@ -34,9 +34,7 @@ app.get('/api', function (req, res) {
 
 app.use('/api', routes);
 
-app.listen(port, () => {
+
+https.createServer(options, app).listen(port, () => {
   console.log(`app is listening on ${port}`);
 });
-// https.createServer(options, app).listen(port, () => {
-//   console.log(`app is listening on ${port}`);
-// });
