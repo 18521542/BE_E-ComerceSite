@@ -166,6 +166,17 @@ class AccountController extends CRUD {
     let result = await AccountService.authenticateGoogle(token);
     res.send(result);
   }
+
+  async getAccount(req, res, next) {
+    let username = req.params.username;
+    let result = await AccountService.findAccount(username);
+    res.send(result);
+  }
+
+  async getUsersTotal(req, res) {
+    let data = await AccountService.getUsersTotal();
+    res.send(data);
+  }
 }
 
 module.exports = AccountController;

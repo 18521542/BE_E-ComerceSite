@@ -13,7 +13,6 @@ const options = {
   key: fs.readFileSync('key.pem'),
   cert: fs.readFileSync('cert.pem'),
 };
-console.log(options);
 
 const app = express();
 const FE_HOST = process.env.FE_HOST;
@@ -29,12 +28,15 @@ app.use(express.json());
 db.connect();
 db.migrateDB(model.getInstance(), pathToMigration);
 
-app.get('/', function (req, res) {
+app.get('/api', function (req, res) {
   res.send('API is running...');
 });
 
-app.use('/', routes);
+app.use('/api', routes);
 
-https.createServer(options, app).listen(port, () => {
+app.listen(port, () => {
   console.log(`app is listening on ${port}`);
 });
+// https.createServer(options, app).listen(port, () => {
+//   console.log(`app is listening on ${port}`);
+// });

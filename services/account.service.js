@@ -7,6 +7,7 @@ const saltRounds = bcrypt.genSaltSync(10);
 const { OAuth2Client } = require('google-auth-library');
 
 const modelAccount = model.getInstance().Account;
+const sequelize = require('sequelize');
 
 class AccountService extends BaseService {
   static hashPassword(password) {
@@ -191,6 +192,17 @@ class AccountService extends BaseService {
     } catch (err) {
       return err.toString();
     }
+  }
+
+  static async getUsersTotal() {
+    return modelAccount.findAll({
+      attributes: [
+        [sequelize.fn('count', sequelize.col('username')), 'users_total'],
+      ],
+      where: {
+        type: 0,
+      },
+    });
   }
 }
 
