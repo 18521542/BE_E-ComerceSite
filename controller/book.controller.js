@@ -79,6 +79,11 @@ class BookController extends CRUD {
     const data = await BookService.getBookByCategory(categoryId);
     return res.send(data);
   }
+
+  async getBooksTotal(req, res) {
+    const data = await BookService.getBooksTotal();
+    return res.send(data);
+  }
 }
 
 module.exports = BookController;

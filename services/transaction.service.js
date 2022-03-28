@@ -154,6 +154,38 @@ class TransactionService extends BaseService {
       group: ['username'],
     });
   }
+
+  static async getOrdersTotal() {
+    return modelTransaction.findAll({
+      attributes: [
+        [sequelize.fn('count', sequelize.col('id')), 'orders_total'],
+      ],
+    });
+  }
+
+  static async getRevenueTotal() {
+    return modelTransaction.findAll({
+      attributes: [
+        [sequelize.fn('sum', sequelize.col('price_total')), 'revenue_total'],
+      ],
+      where: {
+        status: 1,
+      },
+    });
+  }
+
+  static async getLatestOrders() {
+    return modelTransaction.findAll({
+      include: [
+        {
+          model: modelTransactionDetail,
+          as: 'transaction_detail',
+          attributes: ['transaction_id', 'book_id', 'quantity', 'price_total'],
+        },
+      ],
+      order: [['created_at', 'DESC']],
+    });
+  }
 }
 
 module.exports = TransactionService;

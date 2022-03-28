@@ -28,4 +28,14 @@ router.put(
 );
 router.get('/topuser', controller.getTopUser);
 
+router.get('/orders-total', controller.getOrdersTotal);
+
+router.get('/revenue-total', controller.getRevenueTotal);
+
+router.get(
+  '/latest',
+  JWT.verifyRoleAdmin(process.env.ACCESS_JWT_SECRET),
+  controller.getLatestOrders,
+);
+
 module.exports = router;

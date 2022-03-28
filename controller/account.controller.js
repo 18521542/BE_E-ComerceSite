@@ -172,6 +172,11 @@ class AccountController extends CRUD {
     let result = await AccountService.findAccount(username);
     res.send(result);
   }
+
+  async getUsersTotal(req, res) {
+    let data = await AccountService.getUsersTotal();
+    res.send(data);
+  }
 }
 
 module.exports = AccountController;
