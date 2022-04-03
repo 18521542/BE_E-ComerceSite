@@ -29,5 +29,3 @@ jobs:
     - name: Access Digital Ocean Droplet
       run: |
         doctl compute ssh kltn
-        cd BE_E-ComerceSite/
-        git pull origin master
