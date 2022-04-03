@@ -27,11 +27,15 @@ app.use(express.json());
 db.connect();
 db.migrateDB(model.getInstance(), pathToMigration);
 
-app.get('', function (req, res) {
+app.get('/', function (req, res) {
   res.send('API is running...');
 });
 
-app.use('', routes);
+app.get('/test', function (req, res) {
+  res.send('test is running...');
+});
+
+app.use('/', routes);
 
 https.createServer(options, app).listen(port, () => {
   console.log(`app is listening on ${port}`);
