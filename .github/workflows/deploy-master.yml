@@ -13,24 +13,28 @@ jobs:
     #   uses: digitalocean/action-doctl@v2
     #   with:
     #     token: ${{ secrets.DO_PAT }}
-    - name: Create SSH key
-      run: |
-        mkdir -p ~/.ssh/
-        cd ~/.ssh
-        echo "$SSH_PRIVATE_KEY" > id_rsa
-        echo "$SSH_PUBLIC_KEY" > id_rsa.pub
-        echo "$SSH_KNOWN_HOSTS" > known_hosts
-        chmod 400 ~/.ssh/id_rsa
-      shell: bash
-      env:
-        SSH_PRIVATE_KEY:  ${{ secrets.PRIVATE_KEY_ACCESS_DO }}
-        SSH_PUBLIC_KEY:  ${{ secrets.PUBLIC_KEY }}
-        SSH_KNOWN_HOSTS:  ${{ secrets.KNOWN_HOSTS }}
+    # - name: Create SSH key
+    #   run: |
+    #     mkdir -p ~/.ssh/
+    #     cd ~/.ssh
+    #     echo "$SSH_PRIVATE_KEY" > id_rsa
+    #     echo "$SSH_PUBLIC_KEY" > id_rsa.pub
+    #     echo "$SSH_KNOWN_HOSTS" > known_hosts
+    #     chmod 400 ~/.ssh/id_rsa
+    #   shell: bash
+    #   env:
+    #     SSH_PRIVATE_KEY:  ${{ secrets.PRIVATE_KEY_ACCESS_DO }}
+    #     SSH_PUBLIC_KEY:  ${{ secrets.PUBLIC_KEY }}
+    #     SSH_KNOWN_HOSTS:  ${{ secrets.KNOWN_HOSTS }}
     # - name: Checkout
     #   uses: actions/checkout@v2
-    - name: Access Digital Ocean Droplet
-      run: |
-        ssh root@139.59.246.216 |
-        cd BE_E-ComerceSite/ |
-        git pull origin master |
-      shell: bash
+    - name: Deploy via SSH
+      uses: appleboy/ssh-action@master
+      with:
+        host: 139.59.246.216
+        username: root
+        key:  ${{ secrets.PRIVATE_KEY_ACCESS_DO }}
+        script: |
+          ssh root@139.59.246.216
+          cd BE_E-ComerceSite/
+          git pull origin master
