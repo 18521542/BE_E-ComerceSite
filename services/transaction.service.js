@@ -5,6 +5,7 @@ const db = connection.getConnection();
 
 const modelTransaction = model.getInstance().Transaction;
 const modelTransactionDetail = model.getInstance().Transaction_detail;
+const sequelize = require('sequelize');
 
 class TransactionService extends BaseService {
   static getAllTransaction() {
@@ -140,6 +141,50 @@ class TransactionService extends BaseService {
         return err.toString();
       }
     }
+  }
+
+  static async getTopUser() {
+    return modelTransaction.findAll({
+      attributes: [
+        'username',
+        [sequelize.fn('sum', sequelize.col('price_total')), 'spending_total'],
+        [sequelize.fn('count', sequelize.col('username')), 'orders_total'],
+      ],
+      order: [[sequelize.literal('spending_total'), 'DESC']],
+      group: ['username'],
+    });
+  }
+
+  static async getOrdersTotal() {
+    return modelTransaction.findAll({
+      attributes: [
+        [sequelize.fn('count', sequelize.col('id')), 'orders_total'],
+      ],
+    });
+  }
+
+  static async getRevenueTotal() {
+    return modelTransaction.findAll({
+      attributes: [
+        [sequelize.fn('sum', sequelize.col('price_total')), 'revenue_total'],
+      ],
+      where: {
+        status: 1,
+      },
+    });
+  }
+
+  static async getLatestOrders() {
+    return modelTransaction.findAll({
+      include: [
+        {
+          model: modelTransactionDetail,
+          as: 'transaction_detail',
+          attributes: ['transaction_id', 'book_id', 'quantity', 'price_total'],
+        },
+      ],
+      order: [['created_at', 'DESC']],
+    });
   }
 }
 

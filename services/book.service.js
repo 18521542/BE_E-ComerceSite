@@ -8,6 +8,7 @@ const modelAuthor = model.getInstance().Author;
 const modelCategory = model.getInstance().Category;
 const modelBookAuthor = model.getInstance().Book_author;
 const modelBookCategory = model.getInstance().Book_category;
+const sequelize = require('sequelize');
 
 class BookService extends BaseService {
   static getAllBook() {
@@ -317,6 +318,12 @@ class BookService extends BaseService {
         'price',
         'image_url',
       ],
+    });
+  }
+
+  static async getBooksTotal() {
+    return modelBook.findAll({
+      attributes: [[sequelize.fn('count', sequelize.col('id')), 'books_total']],
     });
   }
 }
