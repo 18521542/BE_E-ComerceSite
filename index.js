@@ -13,8 +13,6 @@ const options = {
   key: fs.readFileSync('key.pem'),
   cert: fs.readFileSync('cert.pem'),
 };
-console.log(options);
-
 const app = express();
 const FE_HOST = process.env.FE_HOST;
 app.use(cors({ credentials: true, origin: FE_HOST }));

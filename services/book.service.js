@@ -49,6 +49,19 @@ class BookService extends BaseService {
     });
   }
 
+  static findAllBookByOffset(offset, page, limit){
+
+    const defaultLimit = 5;
+
+    let limitNumber = Number(limit) || defaultLimit
+    let pageNumber = (page-1) * limitNumber;
+
+    return modelBook.findAll({
+      limit: parseInt(limit) || defaultLimit,
+      offset: pageNumber || parseInt(offset) || 0,
+    });
+  }
+
   static findBookCategoryById(categoryid, bookid) {
     return modelBookCategory.findAll({
       where: {

@@ -13,7 +13,12 @@ class BookController extends CRUD {
    * @param  {Function} next Express next middleware function
    */
   async list(req, res) {
-    const data = await BookService.getAllBook();
+    const { offset, page, limit } = req.query;
+    if(!offset && !page && !limit){
+      const data = await BookService.getAllBook();
+      return res.send(data);
+    }
+    const data = await BookService.findAllBookByOffset(offset, page, limit)
     return res.send(data);
   }
 
