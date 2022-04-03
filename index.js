@@ -31,9 +31,6 @@ app.get('/', function (req, res) {
   res.send('API is running...');
 });
 
-app.get('/test2', function (req, res) {
-  res.send('test2 is running...');
-});
 
 app.use('/', routes);
 
