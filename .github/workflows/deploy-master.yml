@@ -9,28 +9,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Install doctl
-      uses: digitalocean/action-doctl@v2
-      with:
-        token: ${{ secrets.DO_PAT }}
-    # - name: Create SSH key
-    #   run: |
-    #     mkdir -p ~/.ssh/
-    #     cd ~/.ssh
-    #     echo "$SSH_PRIVATE_KEY" > id_rsa
-    #     echo "$SSH_PUBLIC_KEY" > id_rsa.pub
-    #     echo "$SSH_KNOWN_HOSTS" > known_hosts
-    #     chmod 400 ~/.ssh/id_rsa
-    #   shell: bash
-    #   env:
-    #     SSH_PRIVATE_KEY:  ${{ secrets.PRIVATE_KEY_ACCESS_DO }}
-    #     SSH_PUBLIC_KEY:  ${{ secrets.PUBLIC_KEY }}
-    #     SSH_KNOWN_HOSTS:  ${{ secrets.KNOWN_HOSTS }}
+    # - name: Install doctl
+    #   uses: digitalocean/action-doctl@v2
+    #   with:
+    #     token: ${{ secrets.DO_PAT }}
+    - name: Create SSH key
+      run: |
+        mkdir -p ~/.ssh/
+        cd ~/.ssh
+        echo "$SSH_PRIVATE_KEY" > id_rsa
+        echo "$SSH_PUBLIC_KEY" > id_rsa.pub
+        echo "$SSH_KNOWN_HOSTS" > known_hosts
+        chmod 400 ~/.ssh/id_rsa
+      shell: bash
+      env:
+        SSH_PRIVATE_KEY:  ${{ secrets.PRIVATE_KEY_ACCESS_DO }}
+        SSH_PUBLIC_KEY:  ${{ secrets.PUBLIC_KEY }}
+        SSH_KNOWN_HOSTS:  ${{ secrets.KNOWN_HOSTS }}
     # - name: Checkout
     #   uses: actions/checkout@v2
     - name: Access Digital Ocean Droplet
       run: |
         doctl compute ssh kltn
-        ls
-        cd BE_E-ComerceSite/
       shell: bash
