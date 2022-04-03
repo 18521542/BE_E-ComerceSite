@@ -26,8 +26,13 @@ jobs:
         SSH_PRIVATE_KEY:  ${{ secrets.PRIVATE_KEY_ACCESS_DO }}
         SSH_PUBLIC_KEY:  ${{ secrets.PUBLIC_KEY }}
         SSH_KNOWN_HOSTS:  ${{ secrets.KNOWN_HOSTS }}
-    - name: Access Digital Ocean Droplet and Get new source
+    - name: Access Digital Ocean Droplet
       run: |
         doctl compute ssh kltn
+        cd BE_E-ComerceSite/
+        git pull origin master
+    - name: Get source
+      uses: digitalocean/action-doctl@v2
+      run: |
         cd BE_E-ComerceSite/
         git pull origin master
