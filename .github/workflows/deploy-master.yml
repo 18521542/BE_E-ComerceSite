@@ -29,3 +29,5 @@ jobs:
     - name: Access Digital Ocean Droplet
       run: |
         doctl compute ssh kltn
+        ls
+      shell: bash
