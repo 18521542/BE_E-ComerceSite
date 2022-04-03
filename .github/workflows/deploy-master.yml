@@ -26,6 +26,8 @@ jobs:
         SSH_PRIVATE_KEY:  ${{ secrets.PRIVATE_KEY_ACCESS_DO }}
         SSH_PUBLIC_KEY:  ${{ secrets.PUBLIC_KEY }}
         SSH_KNOWN_HOSTS:  ${{ secrets.KNOWN_HOSTS }}
+    - name: Checkout
+      uses: actions/checkout@v2
     - name: Access Digital Ocean Droplet
       run: |
         doctl compute ssh kltn
