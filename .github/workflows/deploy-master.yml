@@ -35,6 +35,5 @@ jobs:
         username: root
         key:  ${{ secrets.PRIVATE_KEY_ACCESS_DO }}
         script: |
-          ssh root@139.59.246.216
           cd BE_E-ComerceSite/
           git pull origin master
