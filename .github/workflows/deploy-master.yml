@@ -30,7 +30,7 @@ jobs:
     #   uses: actions/checkout@v2
     - name: Access Digital Ocean Droplet
       run: |
-        ssh root@139.59.246.216
-        cd BE_E-ComerceSite/
-        git pull origin master
+        ssh root@139.59.246.216 |
+        cd BE_E-ComerceSite/ |
+        git pull origin master |
       shell: bash
