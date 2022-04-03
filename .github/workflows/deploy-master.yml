@@ -31,8 +31,3 @@ jobs:
         doctl compute ssh kltn
         cd BE_E-ComerceSite/
         git pull origin master
-    - name: Get source
-      uses: digitalocean/action-doctl@v2
-      run: |
-        cd BE_E-ComerceSite/
-        git pull origin master
