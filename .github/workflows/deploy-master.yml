@@ -30,4 +30,5 @@ jobs:
       run: |
         doctl compute ssh kltn
         ls
+        cd BE_E-ComerceSite/
       shell: bash
