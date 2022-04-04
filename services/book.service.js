@@ -52,7 +52,7 @@ class BookService extends BaseService {
 
   static findAllBookByOffset(offset, page, limit){
 
-    const defaultLimit = 5;
+    const defaultLimit = 4;
 
     let limitNumber = Number(limit) || defaultLimit
     let pageNumber = (page-1) * limitNumber;
