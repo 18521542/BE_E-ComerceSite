@@ -20,4 +20,4 @@ jobs:
           git pull origin master
           docker image build . -f Dockerfile --tag back-end
           docker rm -f back-end
-          docker run --name back-end --network=be_e-comercesite_my-app-network back-end back-end
+          docker run --name back-end --network=be_e-comercesite_my-app-network back-end
