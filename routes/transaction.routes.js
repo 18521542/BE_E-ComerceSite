@@ -38,4 +38,12 @@ router.get(
   controller.getLatestOrders,
 );
 
+router.post(
+  '/createMomo',
+  JWT.verifyJWT(process.env.ACCESS_JWT_SECRET),
+  controller.action('createMomo'),
+);
+
+router.put('/updatestatusmomo', controller.updateStatusMomo);
+
 module.exports = router;
