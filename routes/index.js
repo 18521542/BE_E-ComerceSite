@@ -43,7 +43,7 @@ router.get(`/MLData`, async (req, res) => {
 
     return res.send({
         ml_url: mlAPI,
-        message: "get haven't ml url success"
+        message: "you haven't config ml url"
     })
 })
 
