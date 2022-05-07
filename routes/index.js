@@ -28,23 +28,29 @@ router.get('/ML_API_URL', async (req, res) => {
 })
 
 router.get(`/MLData`, async (req, res) => {
-    console.log("here", mlAPI)
-    if(mlAPI != 'default'){
-        let requestToMLServer = await fetch(mlAPI, {
-            "Content-type": "application/json"
-        });
-        let result = await requestToMLServer.json();
+    try {
+        // console.log("here", mlAPI)
+        if(mlAPI != 'default'){
+            let requestToMLServer = await fetch(mlAPI, {
+                "Content-type": "application/json"
+            });
+            let result = await requestToMLServer.json();
+            return res.send({
+                message: "you have config ml api",
+                ML_API_URL: mlAPI,
+                yourData: result
+            })
+        }
+
         return res.send({
-            message: "you have config ml api",
-            ML_API_URL: mlAPI,
-            yourData: result
+            ml_url: mlAPI,
+            message: "you haven't config ml url"
+        })
+    } catch (e) {
+        res.send({
+            message: "Something go wrong! Please try again!"
         })
     }
-
-    return res.send({
-        ml_url: mlAPI,
-        message: "you haven't config ml url"
-    })
 })
 
 module.exports = router;
