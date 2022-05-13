@@ -76,6 +76,46 @@ class TransactionController extends CRUD {
     const data = await TransactionService.getLatestOrders();
     return res.send(data);
   }
+
+  async createMomo(req, res, next) {
+    let currentDate = new Date();
+    // console.log(res.locals.user);
+    let transaction = {
+      id: req.body.id,
+      // status: -1,
+      username: res.locals.user.account,
+      price_total: req.body.price_total,
+      details: req.body.details,
+      created_at: currentDate,
+      updated_at: currentDate,
+    };
+    // console.log(transaction.details);
+    // -1 : status not paid
+    let result = await TransactionService.createNewTransaction(transaction, -1);
+    res.send({ message: result });
+  }
+
+  async updateStatusMomo(req, res) {
+    const payload = {
+      partnerCode: req.body.partnerCode,
+      orderId: req.body.orderId,
+      requestId: req.body.requestId,
+      amount: req.body.amount,
+      orderInfo: req.body.orderInfo,
+      orderType: req.body.orderType,
+      transId: req.body.transId,
+      resultCode: req.body.resultCode,
+      message: req.body.message,
+      payType: req.body.payType,
+      responseTime: req.body.responseTime,
+      extraData: req.body.extraData,
+      signature: req.body.signature,
+    };
+    // let transactionId = req.params.id;
+    // let status = req.body.status;
+    const data = await TransactionService.updateStatusMomo(payload);
+    return res.send(data);
+  }
 }
 
 module.exports = TransactionController;

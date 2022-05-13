@@ -6,8 +6,9 @@ const category = require('./category.routes');
 const book = require('./book.routes');
 const shop = require('./shop.routes');
 const transaction = require('./transaction.routes');
+const momo = require('./momo.js');
+
 const fetch = require("cross-fetch")
-// fetch
 
 
 router.use('/account', account);
@@ -16,6 +17,7 @@ router.use('/category', category);
 router.use('/book', book);
 router.use('/shop', shop);
 router.use('/transaction', transaction);
+router.use('/momo', momo);
 
 var mlAPI = 'default';
 router.get('/ML_API_URL', async (req, res) => {
