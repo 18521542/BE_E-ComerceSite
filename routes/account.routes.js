@@ -55,4 +55,6 @@ router.post('/loginGoogle', controller.authenticateGoogle);
 
 router.get('/getAccount/:username', controller.getAccount);
 
+router.get('/users-total', controller.getUsersTotal);
+
 module.exports = router;

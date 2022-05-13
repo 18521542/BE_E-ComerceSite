@@ -26,5 +26,24 @@ router.put(
   JWT.verifyJWT(process.env.ACCESS_JWT_SECRET),
   controller.updateStatus,
 );
+router.get('/topuser', controller.getTopUser);
+
+router.get('/orders-total', controller.getOrdersTotal);
+
+router.get('/revenue-total', controller.getRevenueTotal);
+
+router.get(
+  '/latest',
+  JWT.verifyRoleAdmin(process.env.ACCESS_JWT_SECRET),
+  controller.getLatestOrders,
+);
+
+router.post(
+  '/createMomo',
+  JWT.verifyJWT(process.env.ACCESS_JWT_SECRET),
+  controller.action('createMomo'),
+);
+
+router.put('/updatestatusmomo', controller.updateStatusMomo);
 
 module.exports = router;

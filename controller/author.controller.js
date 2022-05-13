@@ -13,7 +13,8 @@ class AuthorController extends CRUD {
    * @param  {Function} next Express next middleware function
    */
   async list(req, res) {
-    const data = await AuthorService.getAllAuthor();
+    const { offset, page, limit } = req.query;
+    const data = await AuthorService.getAllAuthor(offset, page, limit);
     return res.send(data);
   }
 

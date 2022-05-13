@@ -8,6 +8,7 @@ const modelAuthor = model.getInstance().Author;
 const modelCategory = model.getInstance().Category;
 const modelBookAuthor = model.getInstance().Book_author;
 const modelBookCategory = model.getInstance().Book_category;
+const sequelize = require('sequelize');
 
 class BookService extends BaseService {
   static getAllBook() {
@@ -46,6 +47,40 @@ class BookService extends BaseService {
       where: {
         book_id: bookid,
       },
+    });
+  }
+
+  static findAllBookByOffset(offset, page, limit){
+
+    const defaultLimit = 4;
+
+    let limitNumber = Number(limit) || defaultLimit
+    let pageNumber = (page-1) * limitNumber;
+    return modelBook.findAll({
+      include: [
+        {
+          model: modelAuthor,
+          as: 'author',
+          through: { attributes: [] },
+          attributes: ['id', 'name'],
+        },
+        {
+          model: modelCategory,
+          as: 'category',
+          through: { attributes: [] },
+          attributes: ['id', 'name'],
+        },
+      ],
+      attributes: [
+        'id',
+        'name',
+        'description',
+        'quantity',
+        'price',
+        'image_url',
+      ],
+      limit: parseInt(limit) || defaultLimit,
+      offset: pageNumber || parseInt(offset) || 0,
     });
   }
 
@@ -304,6 +339,12 @@ class BookService extends BaseService {
         'price',
         'image_url',
       ],
+    });
+  }
+
+  static async getBooksTotal() {
+    return modelBook.findAll({
+      attributes: [[sequelize.fn('count', sequelize.col('id')), 'books_total']],
     });
   }
 }

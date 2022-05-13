@@ -13,10 +13,10 @@ const options = {
   key: fs.readFileSync('key.pem'),
   cert: fs.readFileSync('cert.pem'),
 };
-
 const app = express();
 const FE_HOST = process.env.FE_HOST;
-app.use(cors({ credentials: true, origin: FE_HOST }));
+const FE2_HOST = process.env.FE2_HOST;
+app.use(cors({ credentials: true, origin: [FE_HOST, FE2_HOST] }));
 let port = process.env.BE_PORT || 3000;
 
 // package for getting value in cookie
