@@ -13,7 +13,12 @@ class CategoryController extends CRUD {
    * @param  {Function} next Express next middleware function
    */
   async list(req, res) {
-    const data = await CategoryService.getAllCategory();
+    const { offset, page, limit } = req.query;
+    if(!offset && !page && !limit){
+      const data = await CategoryService.getAllCategory();
+      return res.send(data);
+    }
+    const data = await CategoryService.getCategoryByPage(offset, page, limit);
     return res.send(data);
   }
 

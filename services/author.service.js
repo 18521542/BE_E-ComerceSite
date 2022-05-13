@@ -4,9 +4,21 @@ const BaseService = require('./base.service');
 const modelAuthor = model.getInstance().Author;
 
 class AuthorService extends BaseService {
-  static getAllAuthor() {
+  static getAllAuthor(offset, page, limit) {
+    const defaultLimit = 4;
+
+    let limitNumber = Number(limit) || defaultLimit
+    let pageNumber = (page-1) * limitNumber;
+
+    if(!offset && !page && !limit){
+      return modelAuthor.findAll({
+        raw: true,
+      })
+    }
     return modelAuthor.findAll({
       raw: true,
+      limit: parseInt(limit) || defaultLimit,
+      offset: pageNumber || parseInt(offset) || 0,
     });
   }
 

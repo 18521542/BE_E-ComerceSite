@@ -13,10 +13,10 @@ const options = {
   key: fs.readFileSync('key.pem'),
   cert: fs.readFileSync('cert.pem'),
 };
-
 const app = express();
 const FE_HOST = process.env.FE_HOST;
-app.use(cors({ credentials: true, origin: FE_HOST }));
+const FE2_HOST = process.env.FE2_HOST;
+app.use(cors({ credentials: true, origin: [FE_HOST, FE2_HOST] }));
 let port = process.env.BE_PORT || 3000;
 
 // package for getting value in cookie
@@ -28,11 +28,11 @@ app.use(express.json());
 db.connect();
 db.migrateDB(model.getInstance(), pathToMigration);
 
-app.get('', function (req, res) {
+app.get('/', function (req, res) {
   res.send('API is running...');
 });
 
-app.use('', routes);
+app.use('/', routes);
 
 https.createServer(options, app).listen(port, () => {
   console.log(`app is listening on ${port}`);

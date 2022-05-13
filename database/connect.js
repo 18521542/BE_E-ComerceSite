@@ -6,25 +6,25 @@ Sequelize.Validator.extend('isPositive', (val) => val >= 0);
 // create sequelize instance with continuation local storage
 Sequelize.useCLS(namespace);
 const connection = new Sequelize(
-    process.env.DB_NAME, 
-    process.env.DB_USER, 
+    process.env.DB_NAME,
+    process.env.DB_USER,
     process.env.DB_PASSWORD, {
-        host: 'my-database-for-node-app',
-        dialect: 'mysql', 
+        host: process.env.DB_HOST,
+        dialect: 'mysql',
         logging: false,
         pool: {
             max: 2000,
             min: 0,
             acquire: 30000,
             idle: 10000
-        },      
+        },
         // http://docs.sequelizejs.com/manual/tutorial/querying.html#operators
         operatorsAliases: false
     }
 );
 
 exports.connect = function (){
-    connection.authenticate()   
+    connection.authenticate()
     .then(() => {
         console.log('Connection has been established successfully.');
         return connection;

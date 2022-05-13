@@ -50,6 +50,40 @@ class BookService extends BaseService {
     });
   }
 
+  static findAllBookByOffset(offset, page, limit){
+
+    const defaultLimit = 4;
+
+    let limitNumber = Number(limit) || defaultLimit
+    let pageNumber = (page-1) * limitNumber;
+    return modelBook.findAll({
+      include: [
+        {
+          model: modelAuthor,
+          as: 'author',
+          through: { attributes: [] },
+          attributes: ['id', 'name'],
+        },
+        {
+          model: modelCategory,
+          as: 'category',
+          through: { attributes: [] },
+          attributes: ['id', 'name'],
+        },
+      ],
+      attributes: [
+        'id',
+        'name',
+        'description',
+        'quantity',
+        'price',
+        'image_url',
+      ],
+      limit: parseInt(limit) || defaultLimit,
+      offset: pageNumber || parseInt(offset) || 0,
+    });
+  }
+
   static findBookCategoryById(categoryid, bookid) {
     return modelBookCategory.findAll({
       where: {

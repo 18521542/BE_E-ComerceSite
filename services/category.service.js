@@ -9,6 +9,17 @@ class CategoryService extends BaseService {
       raw: true,
     });
   }
+  static getCategoryByPage(offset, page, limit) {
+    const defaultLimit = 4;
+
+    let limitNumber = Number(limit) || defaultLimit
+    let pageNumber = (page-1) * limitNumber;
+    return modelCategory.findAll({
+      raw: true,
+      limit: parseInt(limit) || defaultLimit,
+      offset: pageNumber || parseInt(offset) || 0,
+    });
+  }
   static findCategoryById(categoryId) {
     return modelCategory.findByPk(categoryId);
   }
