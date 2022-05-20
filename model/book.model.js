@@ -2,6 +2,11 @@ module.exports = (sequelize, DataType) => {
   const book = sequelize.define(
     'book',
     {
+      book_id: {
+        type: DataType.INTEGER,
+        unique: true,
+        autoIncrement: true,
+      },
       id: {
         type: DataType.UUID,
         allowNull: false,
