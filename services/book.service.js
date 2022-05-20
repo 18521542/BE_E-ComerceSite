@@ -24,10 +24,11 @@ class BookService extends BaseService {
           model: modelCategory,
           as: 'category',
           through: { attributes: [] },
-          attributes: ['id', 'name'],
+          attributes: ['category_id', 'id', 'name'],
         },
       ],
       attributes: [
+        'book_id',
         'id',
         'name',
         'description',
@@ -50,12 +51,11 @@ class BookService extends BaseService {
     });
   }
 
-  static findAllBookByOffset(offset, page, limit){
-
+  static findAllBookByOffset(offset, page, limit) {
     const defaultLimit = 4;
 
-    let limitNumber = Number(limit) || defaultLimit
-    let pageNumber = (page-1) * limitNumber;
+    let limitNumber = Number(limit) || defaultLimit;
+    let pageNumber = (page - 1) * limitNumber;
     return modelBook.findAll({
       include: [
         {
