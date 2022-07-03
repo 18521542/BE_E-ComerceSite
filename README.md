@@ -2,7 +2,7 @@
 ![logo](https://github.com/linhleba/admin-panel/blob/master/src/assets/images/logo.png)
 
 # Giới thiệu 
-Backend Khoá luận tốt nghiệp 2022
+Backend Khoá luận tốt nghiệp 2022 <br/>
 GVHD: ThS Mai Trọng Khang
 
 # Tác giả
